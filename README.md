@@ -1,16 +1,22 @@
 # dietary_works_capstone
 
-A new Flutter project.
+Project ini dibuat untuk memenuhi tugas akhir Studi Independen Kampus Merdeka 2021 di kelas <br>
 
-## Getting Started
+Pengembang Aplikasi Android dan Multi-Platform <br> <br>
+PT Presentologics <br>
+Dicoding Indonesia, Kota Bandung <br>
 
-This project is a starting point for a Flutter application.
+# DietaryWorks - Resep dan Informasi Menu Diet Sehat
+### Resource Sharing & User Generated Content
 
-A few resources to get you started if this is your first Flutter project:
+Team ID : CSD-172
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Nama Anggota: <br> <br>
+P266V4257 - Adilla Syafira Putri <br>
+P158R4112 - Muhammad Rizqy Mahardika <br>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Executive Summary : 
+
+Projek aplikasi kami bertujuan untuk memberikan informasi resep makanan khusus untuk orang-orang yang sedang menjalani diet. Aplikasi kami ditujukan kepada orang-orang yang ingin memasak sendiri makanan- makanan yang memiliki kadar gizi yang cocok untuk diet, seperti masakan yang berkalori rendah, memiliki total lemak yang rendah, dan lain sebagainya, dimana saat ini tidak banyak resep makanan yang menunjukkan informasi dengan detail yang dibutuhkan khusus untuk diet.
+
+
