@@ -1,4 +1,6 @@
 import 'package:dietary_works_capstone/ui/list_page.dart';
+import 'package:dietary_works_capstone/ui/profile_page.dart';
+import 'package:dietary_works_capstone/ui/search_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,8 +20,8 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _listWidget = [
     const ListPage(),
-    //const SearchPage(),
-    //const ProfilePage(),
+    const SearchPage(),
+    const ProfilePage(),
   ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [
