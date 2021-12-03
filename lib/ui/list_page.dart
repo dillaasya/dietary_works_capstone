@@ -1,3 +1,4 @@
+import 'package:dietary_works_capstone/ui/tab_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,16 +13,17 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.only(top: 32, left: 32, right: 32),
+      body:Container(
+        margin: const EdgeInsets.only(top: 32, left: 25, right: 25),
         child: SafeArea(
           child: Column(
             children: <Widget>[
               const SizedBox(
-                height: 25,
+                height: 10,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,9 +49,9 @@ class _ListPageState extends State<ListPage> {
                         children: [
                           Expanded(
                             child: Text('Enaknya masak apa ya hari ini?',
-                                style: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300),
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
 
                             ),
                           ),
@@ -57,19 +59,26 @@ class _ListPageState extends State<ListPage> {
                             child: Image.asset('assets/chef.png'),
                           ),
                         ],
-                      )
+                      ),
 
 
 
 
                     ],
-                  )
+                  ),
+
                 ],
               ),
+              const SizedBox(
+                height: 15,
+              ),
+              const TabView()
             ],
           ),
         ),
-      ),
+      )
+
     );
   }
 }
+
