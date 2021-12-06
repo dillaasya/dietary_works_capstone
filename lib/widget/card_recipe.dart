@@ -83,8 +83,6 @@ class CardRecipe extends StatelessWidget {
           ]),
         )
 
-
-
     );
   }
 }
