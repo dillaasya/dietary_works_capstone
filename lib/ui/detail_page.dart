@@ -128,19 +128,33 @@ class _DetailPageState extends State<DetailPage> {
             ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 child: TabBarView(
                   children: [
-                    Text('Halo!',
-                        style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        )),
-                    Text('Halo!',
-                        style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        )),
+                    ListView.builder(
+                        itemCount: catalog.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index){
+                          final CatalogModel product = catalog[index];
+                          return Text(product.subDesc,
+                              style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ));
+                        }
+                    ),
+                    ListView.builder(
+                        itemCount: catalog.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index){
+                          final CatalogModel product = catalog[index];
+                          return Text(product.subDesc,
+                              style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ));
+                        }
+                    ),
                   ],
                 ),
               )

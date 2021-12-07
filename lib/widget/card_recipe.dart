@@ -43,7 +43,7 @@ class CardRecipe extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    catalog.os,
+                    catalog.name,
                     style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 7),

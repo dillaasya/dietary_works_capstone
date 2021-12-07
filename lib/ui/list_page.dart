@@ -38,7 +38,7 @@ class _ListPageState extends State<ListPage> {
                             fontWeight: FontWeight.w500,
                           )),
                       Text(
-                        'Adilla Syafira',
+                        'Dietary Works',
                         style: GoogleFonts.roboto(
                             fontSize: 28, fontWeight: FontWeight.w700, color: Colors.deepOrangeAccent),
                       ),
