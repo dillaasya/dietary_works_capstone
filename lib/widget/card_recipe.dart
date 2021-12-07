@@ -1,4 +1,5 @@
 import 'package:dietary_works_capstone/data/model/dummy_model.dart';
+import 'package:dietary_works_capstone/ui/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,8 +11,10 @@ class CardRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {},
-
+        onTap: () {
+          Navigator.pushNamed(context, DetailPage.routeName,
+              arguments: catalog);
+        },
         child: Card(
           margin: const EdgeInsets.only(bottom: 20,left:8,right:8),
           clipBehavior: Clip.antiAlias,

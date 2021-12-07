@@ -1,5 +1,8 @@
+import 'package:dietary_works_capstone/data/model/dummy_model.dart';
 import 'package:dietary_works_capstone/ui/home_page.dart';
 import 'package:flutter/material.dart';
+
+import 'ui/detail_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
         //SearchPage.routeName: (context) => const SearchPage(),
         //FavoritePage.routeName: (context) => const FavoritePage(),
         //SettingsPage.routeName: (context) => const SettingsPage(),
-        //DetailPage.routeName: (context) => DetailPage(restaurant: ModalRoute.of(context)?.settings.arguments as Restaurant,),
+        DetailPage.routeName: (context) => DetailPage(catalog: ModalRoute.of(context)?.settings.arguments as CatalogModel,),
       },
     );
   }

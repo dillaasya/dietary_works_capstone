@@ -40,7 +40,7 @@ class _ListPageState extends State<ListPage> {
                       Text(
                         'Adilla Syafira',
                         style: GoogleFonts.roboto(
-                            fontSize: 28, fontWeight: FontWeight.w700),
+                            fontSize: 28, fontWeight: FontWeight.w700, color: Colors.deepOrangeAccent),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
