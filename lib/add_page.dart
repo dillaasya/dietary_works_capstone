@@ -413,7 +413,6 @@ class _AddPageState extends State<AddPage> {
     Reference reference =
         FirebaseStorage.instance.ref().child('fotoItem/$fileName');
     await reference.putFile(_imageItem!);
-    // UploadTask uploadTask = reference.putData((await imageFile.getByteData()).buffer.asUint8List());
     return await reference.getDownloadURL();
   }
 

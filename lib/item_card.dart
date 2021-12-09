@@ -6,11 +6,12 @@ class ItemCard extends StatelessWidget {
   final String name;
   final int duration;
   final String difficulty;
+  final String image;
 
   final Function onUpdate;
   final Function onDelete;
 
-  const ItemCard(this.name, this.duration,this.difficulty,{required this.onDelete,required this.onUpdate} );
+  const ItemCard(this.name, this.duration,this.difficulty,this.image,{required this.onDelete,required this.onUpdate} );
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,18 @@ class ItemCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          SizedBox(
+            height: 50,
+            width: 50,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14), bottom: Radius.circular(14)),
+              child: Image.network(
+                image,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,9 +64,15 @@ class ItemCard extends StatelessWidget {
               SizedBox(
                 height: 40,
                 width: 60,
-                child: RaisedButton(
-                    shape: const CircleBorder(),
-                    color: Colors.green[900],
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.white,
+                    primary: Colors.green,
+                    shadowColor: Colors.grey,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+
+                  ),
+
                     child: const Center(
                         child: Icon(
                           Icons.arrow_upward,
@@ -66,9 +85,14 @@ class ItemCard extends StatelessWidget {
               SizedBox(
                 height: 40,
                 width: 60,
-                child: RaisedButton(
-                    shape: const CircleBorder(),
-                    color: Colors.red[900],
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.white,
+                      primary: Colors.red,
+                      shadowColor: Colors.grey,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+
+                    ),
                     child: const Center(
                         child: Icon(
                           Icons.delete,

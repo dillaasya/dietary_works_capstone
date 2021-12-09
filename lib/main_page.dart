@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/item_card.dart';
+import 'package:dietary_works_capstone/update_page.dart';
 import 'package:flutter/material.dart';
 import 'add_page.dart';
 
@@ -38,13 +39,12 @@ class _MainPageState extends State<MainPage> {
                                     e['nama'],
                                     e['durasi'],
                                     e['tingkat kesulitan'],
+                                    e['gambar'],
                                     onUpdate: () {
-                                      resep.doc(e.id).update({'durasi': e['durasi'] + 1});
-                                      setState(() {
-                                        // Call setState to refresh the page.
-                                      });
+                                      UpdatePage();
                                     },
-                                    onDelete: () {
+                                    onDelete: (){
+                                      //firebase_storage.FirebaseStorage.instance.ref(e['gambar']).delete();
                                       resep.doc(e.id).delete();
                                     },
                                   ))
@@ -75,3 +75,4 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
