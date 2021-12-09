@@ -5,11 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 class ItemCard extends StatelessWidget {
   final String name;
   final int duration;
+  final String difficulty;
 
   final Function onUpdate;
   final Function onDelete;
 
-  const ItemCard(this.name, this.duration,{required this.onDelete,required this.onUpdate} );
+  const ItemCard(this.name, this.duration,this.difficulty,{required this.onDelete,required this.onUpdate} );
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,18 @@ class ItemCard extends StatelessWidget {
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600, fontSize: 16)),
               ),
-              Text(
-                "$duration menit",
-                style: GoogleFonts.poppins(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "$duration menit",
+                    style: GoogleFonts.poppins(),
+                  ),
+                  Text(
+                    "Level $difficulty",
+                    style: GoogleFonts.poppins(),
+                  ),
+                ],
               )
             ],
           ),

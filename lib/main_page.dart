@@ -37,6 +37,7 @@ class _MainPageState extends State<MainPage> {
                               .map((e) => ItemCard(
                                     e['nama'],
                                     e['durasi'],
+                                    e['tingkat kesulitan'],
                                     onUpdate: () {
                                       resep.doc(e.id).update({'durasi': e['durasi'] + 1});
                                       setState(() {
