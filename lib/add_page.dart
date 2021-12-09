@@ -40,37 +40,85 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          title: const Text('Add Recipe'),
-        ),
-        backgroundColor: Colors.white,
-        body: ListView(
-          children: [
-            Container(
-                padding: const EdgeInsets.all(32),
-                decoration:
-                    const BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(-5, 0),
-                      blurRadius: 15,
-                      spreadRadius: 3)
-                ]),
-                child: Form(
-                  autovalidateMode: AutovalidateMode.always,
-                  key: _formKeyValue,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          width: 250,
-                          height: 250,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(24),
+        body: SafeArea(
+          child: ListView(
+            children: [
+              Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration:
+                  const BoxDecoration(color: Colors.white, boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(-5, 0),
+                        blurRadius: 10,
+                        spreadRadius: 3)
+                  ]),
+                  child: Form(
+                    autovalidateMode: AutovalidateMode.always,
+                    key: _formKeyValue,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isNotEmpty && value.length > 2) {
+                                return null;
+                              } else if (value.length < 5 && value.isNotEmpty) {
+                                return 'Nama resep anda terlalu singkat!';
+                              } else {
+                                return 'Tidak boleh kosong!';
+                              }
+                            },
+                            style: GoogleFonts.poppins(),
+                            controller: nameController,
+                            decoration:  InputDecoration(
+                              hintText: "Nama resep",
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.deepOrangeAccent,
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              contentPadding:
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                            ),
+                          ),
+                        ),
+                        Container(
+                            width: 350,
+                            height: 250,
+                            margin: const EdgeInsets.only(top: 10, bottom: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(24),
+                            ),
                             child: _imageItem != null
                                 ? Image.file(_imageItem!)
-                                : FlatButton(
+                                : TextButton(
                                     child: const Icon(
                                       Icons.add_a_photo,
                                       size: 50,
@@ -78,7 +126,7 @@ class _AddPageState extends State<AddPage> {
                                     onPressed: () async {
                                       final image = await ImagePicker()
                                           .pickImage(
-                                              source: ImageSource.gallery);
+                                          source: ImageSource.gallery);
                                       if (image == null) return;
 
                                       final imageTemporary = File(image.path);
@@ -87,180 +135,277 @@ class _AddPageState extends State<AddPage> {
                                         _imageItem = imageTemporary;
                                       });
 
-                                      SnackBar snackbar = const SnackBar(
+                                      SnackBar snackBarWaiting = const SnackBar(
                                           content: Text('Mohon Tunggu'));
-                                      scaffoldKey.currentState
-                                          ?.showSnackBar(snackbar);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBarWaiting);
+
                                       postImage().then((downloadUrl) {
                                         _urlItemImage = downloadUrl;
-                                        SnackBar snackbar = const SnackBar(
+                                        SnackBar snackBarSuccess = const SnackBar(
                                             content:
-                                                Text('Uploaded Successfully'));
-                                        scaffoldKey.currentState
-                                            ?.showSnackBar(snackbar);
+                                            Text('Uploaded Successfully'));
+                                        ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
                                       });
                                       setState(() {});
                                     },
                                   ),
-                          )),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isNotEmpty && value.length > 2) {
-                            return null;
-                          } else if (value.length < 5 && value.isNotEmpty) {
-                            return 'Nama resep anda terlalu singkat!';
-                          } else {
-                            return 'Tidak boleh kosong!';
-                          }
-                        },
-                        style: GoogleFonts.poppins(),
-                        controller: nameController,
-                        decoration: const InputDecoration(
-                            hintText: "Nama makanan / judul"),
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Tidak boleh kosong!';
-                          } else {
-                            return null;
-                          }
-                        },
-                        style: GoogleFonts.poppins(),
-                        controller: durationController,
-                        decoration: const InputDecoration(
-                            hintText: "Durasi memasak (menit)"),
-                        keyboardType: TextInputType.number,
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      DropdownButtonFormField<String>(
-                        icon: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xFF000000).withOpacity(0.25),
-                            size: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isNotEmpty) {
+                                return null;
+                              } else {
+                                return 'Tidak boleh kosong!';
+                              }
+                            },
+                            style: GoogleFonts.poppins(),
+                            maxLines: 3,
+                            controller: materialController,
+                            decoration: InputDecoration(
+                              hintText: "Bahan-bahan",
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.deepOrangeAccent,
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              contentPadding:
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                            ),
+                            keyboardType: TextInputType.multiline,
                           ),
                         ),
-                        decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(30)),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isNotEmpty) {
+                                return null;
+                              } else {
+                                return 'Tidak boleh kosong!';
+                              }
+                            },
+                            style: GoogleFonts.poppins(),
+                            maxLines: 7,
+                            controller: tutorialController,
+                            decoration:  InputDecoration(
+                              hintText: "Instruksi memasak",
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.deepOrangeAccent,
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              contentPadding:
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
                             ),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                borderSide: BorderSide(
-                                    color:
-                                        Color(0xFF000000).withOpacity(0.15))),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                borderSide:
-                                    BorderSide(color: Color(0xFF031F4B))),
-                            filled: false,
-                            contentPadding:
-                                EdgeInsets.only(left: 24.0, right: 0),
-                            hintStyle: GoogleFonts.openSans(
-                                fontSize: 12,
-                                color: Color(0xFF000000).withOpacity(0.25)),
-                            errorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                borderSide: BorderSide(color: Colors.red)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1)),
-                            errorStyle: GoogleFonts.openSans(fontSize: 10)),
-                        hint: Text(
-                          "divisi",
-                          style: GoogleFonts.openSans(
-                              fontSize: 12,
-                              color: Color(0xFF000000).withOpacity(.25)),
+                            keyboardType: TextInputType.multiline,
+                          ),
                         ),
-                        value: tingkatKesulitan,
-                        onChanged: (newValue) {
-                          setState(() {
-                            tingkatKesulitan = newValue!;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isNotEmpty) {
-                            return null;
-                          } else {
-                            return 'Tingkat kesulitan harus dipilih!';
-                          }
-                        },
-                        items: kesulitan.map((valueItem) {
-                          return DropdownMenuItem(
-                            value: valueItem,
-                            child: Text(
-                              valueItem,
-                              style: GoogleFonts.openSans(
-                                  fontSize: 12, color: Color(0xFF000000)),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Tidak boleh kosong!';
+                              } else {
+                                return null;
+                              }
+                            },
+                            style: GoogleFonts.poppins(),
+                            controller: durationController,
+                            decoration: InputDecoration(
+                              hintText: "Durasi memasak (menit)",
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.deepOrangeAccent,
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              contentPadding:
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
                             ),
-                          );
-                        }).toList(),
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isNotEmpty) {
-                            return null;
-                          } else {
-                            return 'Tidak boleh kosong!';
-                          }
-                        },
-                        style: GoogleFonts.poppins(),
-                        maxLines: 3,
-                        controller: materialController,
-                        decoration:
-                            const InputDecoration(hintText: "Bahan-bahan"),
-                        keyboardType: TextInputType.multiline,
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isNotEmpty) {
-                            return null;
-                          } else {
-                            return 'Tidak boleh kosong!';
-                          }
-                        },
-                        style: GoogleFonts.poppins(),
-                        maxLines: 7,
-                        controller: tutorialController,
-                        decoration: const InputDecoration(
-                            hintText: "Instruksi memasak"),
-                        keyboardType: TextInputType.multiline,
-                      ),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.red),
-                            child: Text(
-                              'Add Data',
-                              style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: DropdownButtonFormField<String>(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.black.withOpacity(0.25),
+                                size: 20,
+                              ),
                             ),
-                            onPressed: () {
+                            decoration: InputDecoration(
+                                labelText: "Tingkat Kesulitan",
+                                border: InputBorder.none,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.deepOrangeAccent,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                filled: false,
+                                contentPadding:
+                                const EdgeInsets.only(left: 24.0, right: 0),
+                                hintStyle: GoogleFonts.roboto(
+                                    fontSize: 20,
+                                    color: Colors.black.withOpacity(0.25)
+                                ),
+                            ),
+                            value: tingkatKesulitan,
+                            onChanged: (newValue) {
                               setState(() {
-                                postItem();
+                                tingkatKesulitan = newValue!;
                               });
-                            }),
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        ));
+                            },
+                            validator: (value) {
+                              if (value!.isNotEmpty) {
+                                return null;
+                              } else {
+                                return 'Tingkat kesulitan harus dipilih!';
+                              }
+                            },
+                            items: kesulitan.map((valueItem) {
+                              return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(
+                                  valueItem,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 15, color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(const EdgeInsets.only(top: 18, bottom: 18)),
+                                  minimumSize: MaterialStateProperty.all<Size>(const Size(350, 0)),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: const BorderSide(color: Colors.deepOrangeAccent)
+                                      )
+                                  )
+                              ),
+                              child: Text(
+                                'Tambah Resep',
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  postItem();
+                                });
+                              }),
+                        ),
+
+                      ],
+                    ),
+                  )),
+            ],
+          ),
+        )
+    );
   }
 
   Future<String> postImage() async {
