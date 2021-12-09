@@ -1,20 +1,22 @@
-import 'package:dietary_works_capstone/data/model/dummy_model.dart';
-import 'package:dietary_works_capstone/ui/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CardRecipe extends StatelessWidget {
 
-  final CatalogModel catalog;
-  const CardRecipe({Key? key, required this.catalog}) : super(key: key);
+  final String name;
+  final int duration;
+  final String difficulty;
+  final String image;
+
+  final Function onUpdate;
+  final Function onDelete;
+
+  const CardRecipe(this.name, this.duration,this.difficulty,this.image,{Key? key, required this.onDelete,required this.onUpdate} ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, DetailPage.routeName,
-              arguments: catalog);
-        },
+        onTap: () {},
         child: Card(
           margin: const EdgeInsets.only(bottom: 20,left:8,right:8),
           clipBehavior: Clip.antiAlias,
@@ -26,12 +28,12 @@ class CardRecipe extends StatelessWidget {
                 height: 90,
                 width: 110,
                 child: Hero(
-                  tag: catalog.name,
+                  tag: image,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(14), bottom: Radius.circular(14)),
                     child: Image.network(
-                      'https://th.bing.com/th/id/OIP.SVQuKv9AV3rBM5ZnfCmtigHaE8?pid=ImgDet&rs=1',
+                      image,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -43,40 +45,26 @@ class CardRecipe extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    catalog.name,
+                    name,
                     style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 7),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.location_on,
-                        color: Colors.black26,
-                        size: 15,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
                       Text(
-                        catalog.ram,
-                        style: GoogleFonts.roboto(fontWeight: FontWeight.w300),
+                        "$duration menit",
+                        style: GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.orange),
                       ),
                     ],
                   ),
                   const SizedBox(height: 7),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.black45,
-                        size: 15,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
                       Text(
-                        catalog.weight,
-                        style: GoogleFonts.roboto(fontWeight: FontWeight.w300),
+                        difficulty,
+                        style:  (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                                (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade600) :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
                       ),
                     ],
                   ),
