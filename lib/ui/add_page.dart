@@ -43,24 +43,39 @@ class _AddPageState extends State<AddPage> {
         body: SafeArea(
           child: ListView(
             children: [
+              Padding(
+                padding: EdgeInsets.only(left: 14, top: 22),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.deepOrangeAccent,
+                      child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                    const SizedBox(width: 15,),
+                    Text(
+                      'Tambah Resep',
+                      style: GoogleFonts.roboto(
+                          fontSize: 25, fontWeight: FontWeight.w700, color: Colors.deepOrangeAccent),
+                    ),
+                  ],
+                ),
+              ),
               Container(
-                  padding: const EdgeInsets.all(32),
-                  decoration:
-                  const BoxDecoration(color: Colors.white, boxShadow: [
-                    BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(-5, 0),
-                        blurRadius: 10,
-                        spreadRadius: 3)
-                  ]),
+                  padding: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
                   child: Form(
                     autovalidateMode: AutovalidateMode.always,
                     key: _formKeyValue,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isNotEmpty && value.length > 2) {

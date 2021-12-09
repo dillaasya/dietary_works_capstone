@@ -15,7 +15,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(top: 32, left: 32, right: 32),
+        margin: const EdgeInsets.only(top: 12, left: 32, right: 32),
         child: SafeArea(
           child: Column(
             children: <Widget>[
@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    padding: const EdgeInsets.only(top: 10, bottom: 20),
                     child: ElevatedButton(
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all(const EdgeInsets.only(top: 18, bottom: 18)),
