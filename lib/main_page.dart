@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/item_card.dart';
-import 'package:dietary_works_capstone/update_page.dart';
 import 'package:flutter/material.dart';
 import 'add_page.dart';
 
@@ -27,37 +28,25 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          ListView(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                  stream: resep.snapshots(),
-                  builder: (_, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                          children: snapshot.data!.docs
-                              .map((e) => ItemCard(
-                                    e['nama'],
-                                    e['durasi'],
-                                    e['tingkat kesulitan'],
-                                    e['gambar'],
-                                    onUpdate: () {
-                                      UpdatePage();
-                                    },
-                                    onDelete: (){
-                                      //firebase_storage.FirebaseStorage.instance.ref(e['gambar']).delete();
-                                      resep.doc(e.id).delete();
-                                    },
-                                  ))
-                              .toList());
-                    } else {
-                      return const Text(
-                          'kamu belum memiliki resep. Klik ikon mengambang pada pojok kanan layar untuk menambah resep baru');
-                    }
-                  }),
-              const SizedBox(
-                height: 150,
-              )
-            ],
+          StreamBuilder<QuerySnapshot>(
+              stream: resep.snapshots(),
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data?.docs.length ?? null,
+                      itemBuilder: (context, index) {
+                        log('Index : $index');
+                        QueryDocumentSnapshot<Object?>? ds = snapshot.data?.docs[index];
+                        log('Index : $ds');
+                        return ItemCard(ds?.id);
+                      });
+                } else {
+                  return const Text(
+                      'kamu belum memiliki resep. Klik ikon mengambang pada pojok kanan layar untuk menambah resep baru');
+                }
+              }),
+          const SizedBox(
+            height: 150,
           ),
         ],
       ),
@@ -75,4 +64,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-

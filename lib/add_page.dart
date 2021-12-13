@@ -109,46 +109,46 @@ class _AddPageState extends State<AddPage> {
                           ),
                         ),
                         Container(
-                            width: 350,
-                            height: 250,
-                            margin: const EdgeInsets.only(top: 10, bottom: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(24),
+                          width: 350,
+                          height: 250,
+                          margin: const EdgeInsets.only(top: 10, bottom: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: _imageItem != null
+                              ? Image.file(_imageItem!)
+                              : TextButton(
+                            child: const Icon(
+                              Icons.add_a_photo,
+                              size: 50,
                             ),
-                            child: _imageItem != null
-                                ? Image.file(_imageItem!)
-                                : TextButton(
-                                    child: const Icon(
-                                      Icons.add_a_photo,
-                                      size: 50,
-                                    ),
-                                    onPressed: () async {
-                                      final image = await ImagePicker()
-                                          .pickImage(
-                                          source: ImageSource.gallery);
-                                      if (image == null) return;
+                            onPressed: () async {
+                              final image = await ImagePicker()
+                                  .pickImage(
+                                  source: ImageSource.gallery);
+                              if (image == null) return;
 
-                                      final imageTemporary = File(image.path);
-                                      setState(() {
-                                        this.image = imageTemporary;
-                                        _imageItem = imageTemporary;
-                                      });
+                              final imageTemporary = File(image.path);
+                              setState(() {
+                                this.image = imageTemporary;
+                                _imageItem = imageTemporary;
+                              });
 
-                                      SnackBar snackBarWaiting = const SnackBar(
-                                          content: Text('Mohon Tunggu'));
-                                      ScaffoldMessenger.of(context).showSnackBar(snackBarWaiting);
+                              SnackBar snackBarWaiting = const SnackBar(
+                                  content: Text('Mohon Tunggu'));
+                              ScaffoldMessenger.of(context).showSnackBar(snackBarWaiting);
 
-                                      postImage().then((downloadUrl) {
-                                        _urlItemImage = downloadUrl;
-                                        SnackBar snackBarSuccess = const SnackBar(
-                                            content:
-                                            Text('Uploaded Successfully'));
-                                        ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
-                                      });
-                                      setState(() {});
-                                    },
-                                  ),
+                              postImage().then((downloadUrl) {
+                                _urlItemImage = downloadUrl;
+                                SnackBar snackBarSuccess = const SnackBar(
+                                    content:
+                                    Text('Uploaded Successfully'));
+                                ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
+                              });
+                              setState(() {});
+                            },
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -308,43 +308,43 @@ class _AddPageState extends State<AddPage> {
                               ),
                             ),
                             decoration: InputDecoration(
-                                labelText: "Tingkat Kesulitan",
-                                border: InputBorder.none,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.deepOrangeAccent,
-                                    width: 1.0,
-                                  ),
+                              labelText: "Tingkat Kesulitan",
+                              border: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.deepOrangeAccent,
+                                  width: 1.0,
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.black,
-                                    width: 1.0,
-                                  ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
                                 ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.red,
-                                    width: 1.0,
-                                  ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
                                 ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.red,
-                                    width: 1.0,
-                                  ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
                                 ),
-                                filled: false,
-                                contentPadding:
-                                const EdgeInsets.only(left: 24.0, right: 0),
-                                hintStyle: GoogleFonts.roboto(
-                                    fontSize: 20,
-                                    color: Colors.black.withOpacity(0.25)
-                                ),
+                              ),
+                              filled: false,
+                              contentPadding:
+                              const EdgeInsets.only(left: 24.0, right: 0),
+                              hintStyle: GoogleFonts.roboto(
+                                  fontSize: 20,
+                                  color: Colors.black.withOpacity(0.25)
+                              ),
                             ),
                             value: tingkatKesulitan,
                             onChanged: (newValue) {
@@ -411,7 +411,7 @@ class _AddPageState extends State<AddPage> {
   Future<String> postImage() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference reference =
-        FirebaseStorage.instance.ref().child('fotoItem/$fileName');
+    FirebaseStorage.instance.ref().child('fotoItem/$fileName');
     await reference.putFile(_imageItem!);
     return await reference.getDownloadURL();
   }
@@ -430,10 +430,10 @@ class _AddPageState extends State<AddPage> {
         'gambar': _urlItemImage
       });
 
-      nameController.text = '';
-      durationController.text = '';
-      materialController.text = '';
-      tutorialController.text = '';
+      nameController.clear();
+      durationController.clear();
+      materialController.clear();
+      tutorialController.clear();
 
       Navigator.pushReplacement(
         context,
