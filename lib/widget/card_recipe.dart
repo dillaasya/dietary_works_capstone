@@ -1,59 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dietary_works_capstone/ui/detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CardRecipe extends StatefulWidget {
-  final String? id;
+class CardRecipe extends StatelessWidget {
 
-  const CardRecipe(this.id, {Key? key}) : super(key: key);
+  final String name;
+  final int duration;
+  final String difficulty;
+  final String image;
 
-  @override
-  State<CardRecipe> createState() => _CardRecipeState();
-}
+  final Function onUpdate;
+  final Function onDelete;
 
-class _CardRecipeState extends State<CardRecipe> {
-  String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
-  FirebaseFirestore? firestore;
-  CollectionReference? resep;
-
-  String? tingkatKesulitan = 'Mudah';
-
-  final kesulitan = ["Mudah", "Sedang", "Sulit"];
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController levelController = TextEditingController();
-  final TextEditingController durationController = TextEditingController();
-  final TextEditingController materialController = TextEditingController();
-  final TextEditingController tutorialController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    id = widget.id!;
-    firestore = FirebaseFirestore.instance;
-    resep = firestore!.collection('resep');
-    getData();
-  }
-
-  void getData() {
-    resep?.doc(id).get().then((value) {
-      name = value.get('nama');
-      duration = value.get('durasi').toString();
-      difficulty = value.get('tingkat kesulitan');
-      image = value.get('gambar');
-      material = value.get('bahan');
-      tutorial = value.get('instruksi memasak');
-      setState(() {});
-    });
-  }
+  const CardRecipe(this.name, this.duration,this.difficulty,this.image,{Key? key, required this.onDelete,required this.onUpdate} ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {Navigator.pushNamed(context, DetailPage.routeName, arguments: id);},
+        onTap: () {},
         child: Card(
           margin: const EdgeInsets.only(bottom: 20,left:8,right:8),
           clipBehavior: Clip.antiAlias,
@@ -69,13 +33,12 @@ class _CardRecipeState extends State<CardRecipe> {
                         height: 90,
                         width: 110,
                         child: Hero(
-                          tag: image.toString(),
+                          tag: image,
                           child: ClipRRect(
                             borderRadius: const BorderRadius.vertical(
                                 top: Radius.circular(14), bottom: Radius.circular(14)),
-                            child: image == null ? Placeholder()
-                                : Image.network(
-                              image??'',
+                            child: Image.network(
+                              image,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -87,7 +50,7 @@ class _CardRecipeState extends State<CardRecipe> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            name??'',
+                            name,
                             style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 7),
@@ -103,7 +66,7 @@ class _CardRecipeState extends State<CardRecipe> {
                           Row(
                             children: [
                               Text(
-                                  difficulty??'',
+                                  difficulty,
                                   style:  (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
                                   (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade600) :
                                   GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
@@ -115,6 +78,27 @@ class _CardRecipeState extends State<CardRecipe> {
                     ),
                   ]
               ),
+              Container(
+                height: 40,
+                width: 60,
+                margin: EdgeInsets.only(right: 15),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.white,
+                      primary: Colors.red,
+                      shadowColor: Colors.grey,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+
+                    ),
+                    child: const Center(
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        )),
+                    onPressed: () {
+                      if (onDelete != null) onDelete();
+                    }),
+              )
             ],
           )
         )
