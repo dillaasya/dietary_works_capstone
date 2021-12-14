@@ -14,9 +14,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
-  static const String _homeText = 'Beranda';
-  static const String _searchText = 'Pencarian';
-  static const String _profileText = 'Resep';
+  static const String _homeText = 'Home';
+  static const String _searchText = 'Search';
+  static const String _profileText = 'Tambah';
 
   final List<Widget> _listWidget = [
     const ListPage(),
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     ),
     const BottomNavigationBarItem(icon: Icon(Icons.search), label: _searchText),
     const BottomNavigationBarItem(
-        icon: Icon(Icons.notes), label: _profileText),
+        icon: Icon(Icons.add), label: _profileText),
   ];
 
   void _onBottomNavTapped(int index) {
