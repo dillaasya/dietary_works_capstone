@@ -1,8 +1,8 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/item_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'add_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -31,19 +31,21 @@ class _MainPageState extends State<MainPage> {
           StreamBuilder<QuerySnapshot>(
               stream: resep.snapshots(),
               builder: (_, snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.active) {
                   return ListView.builder(
                       itemCount: snapshot.data?.docs.length ?? null,
                       itemBuilder: (context, index) {
                         log('Index : $index');
-                        QueryDocumentSnapshot<Object?>? ds = snapshot.data?.docs[index];
+                        QueryDocumentSnapshot<Object?>? ds =
+                        snapshot.data?.docs[index];
                         log('Index : $ds');
                         return ItemCard(ds?.id);
-                      });
-                } else {
-                  return const Text(
-                      'kamu belum memiliki resep. Klik ikon mengambang pada pojok kanan layar untuk menambah resep baru');
-                }
+                      }
+                  );
+                } else
+
+                  return const Center(child: CircularProgressIndicator());
+
               }),
           const SizedBox(
             height: 150,

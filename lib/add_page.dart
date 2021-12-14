@@ -143,7 +143,7 @@ class _AddPageState extends State<AddPage> {
                                 _urlItemImage = downloadUrl;
                                 SnackBar snackBarSuccess = const SnackBar(
                                     content:
-                                    Text('Uploaded Successfully'));
+                                    Text('Gambar berhasil diunggah'));
                                 ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
                               });
                               setState(() {});
@@ -435,10 +435,8 @@ class _AddPageState extends State<AddPage> {
       materialController.clear();
       tutorialController.clear();
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
-      );
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context,MainPage.routeName);
     }
   }
 }

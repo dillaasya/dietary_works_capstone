@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/detail_page.dart';
+import 'package:dietary_works_capstone/main_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +16,7 @@ class ItemCard extends StatefulWidget {
 
 class _ItemCardState extends State<ItemCard> {
   final GlobalKey<FormState> _formKeyValue = GlobalKey<FormState>();
+  bool isLoading = false;
 
   String id = '';
   String? image, name, duration, difficulty, material, tutorial;
@@ -367,7 +367,7 @@ class _ItemCardState extends State<ItemCard> {
                                     )
                                 ),
                                 child: Text(
-                                  'Tambah Resep',
+                                  'Simpan',
                                   style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -417,7 +417,7 @@ class _ItemCardState extends State<ItemCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, DetailPage.routeName);
+        Navigator.pushNamed(context, DetailPage.routeName, arguments: id);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -527,9 +527,32 @@ class _ItemCardState extends State<ItemCard> {
   void onDelete() async {
     await resep?.doc(id).delete();
     await FirebaseStorage.instance.refFromURL(image!).delete();
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, MainPage.routeName);
   }
 
-  void updateItem(String id) {}
+  void updateItem(String id) {
+    ///Progress Loading TRUE/1/ON/HIGH
+    int duration;
 
+    name = nameController.text;
+    material = materialController.text;
+    tutorial = tutorialController.text;
+    duration = int.tryParse(durationController.text) ?? 0;
+    difficulty = tingkatKesulitan;
+
+    if (_formKeyValue.currentState!.validate()) {
+      resep?.doc(id).update({
+        "nama" : name,
+        "durasi" : duration,
+        "tingkat kesulitan" : difficulty,
+        "instruksi memasak" : tutorial,
+        "bahan" : material,
+
+      });
+
+      Navigator.pop(context);  ///Buat hilangin Dialog
+      Navigator.pushReplacementNamed(context, MainPage.routeName); ///Buat refresh halaman
+    }
+
+  }
 }
