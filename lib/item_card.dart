@@ -415,100 +415,108 @@ class _ItemCardState extends State<ItemCard> {
 
   @override
   Widget build(BuildContext context) {
+    var intDuration = int.parse(duration!);
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, DetailPage.routeName, arguments: id);
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(14), bottom: Radius.circular(14)),
-              child: image == null ? Placeholder()
-                  : Image.network(
-                "$image",
-                fit: BoxFit.contain,
-              ),
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Card(
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.5,
-                child: Text(name ?? '',
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, fontSize: 16)),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "$duration menit",
-                    style: GoogleFonts.poppins(),
-                  ),
-                  SizedBox(width: 20,),
-                  Text(
-                    "Level $difficulty",
-                    style: GoogleFonts.poppins(),
-                  ),
-                ],
-              )
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                height: 40,
-                width: 60,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: Colors.green,
-                      shadowColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 90,
+                      width: 110,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(14), bottom: Radius.circular(14)),
+                        child: image == null ? Placeholder()
+                            : Image.network(
+                          "$image",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                    child: const Center(
-                        child: Icon(
-                          Icons.arrow_upward,
-                          color: Colors.white,
-                        )),
-                    onPressed: () {
-                      _showDialogEdit();
-                    }),
-              ),
-              SizedBox(
-                height: 40,
-                width: 60,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: Colors.red,
-                      shadowColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(name ?? '',
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600, fontSize: 16)),
+                          Text(
+                            "$duration menit",
+                            style:
+                            (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                            (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                            GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
+                          ),
+                          Text(
+                            "$difficulty",
+                            style:
+                            (difficulty == 'Sulit')? GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.red) :
+                            (difficulty == 'Sedang')? GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                            GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.green)
+                          ),
+                        ],
+                      ),
                     ),
-                    child: const Center(
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        )),
-                    onPressed: () {
-                      onDelete();
-                    }),
-              )
-            ],
-          )
-        ],
-      ),
+
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 5),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            onPrimary: Colors.white,
+                            primary: Colors.green,
+                            shadowColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                          child: const Center(
+                              child: Icon(
+                                Icons.arrow_upward,
+                                color: Colors.white,
+                              )),
+                          onPressed: () {
+                            _showDialogEdit();
+                          }
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            onPrimary: Colors.white,
+                            primary: Colors.red,
+                            shadowColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                          child: const Center(
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              )),
+                          onPressed: () {
+                            onDelete();
+                          }),
+                    ],
+                  ),
+                )
+              ],
+            )
+        ),
+      )
     );
   }
 

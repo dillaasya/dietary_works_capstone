@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
   static const routeName = '/detail_page';
@@ -29,34 +30,134 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          title: const Text('Detail'),
-        ),
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            SizedBox(
-              height: 50,
-              width: 50,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(14), bottom: Radius.circular(14)),
-                child: image == null ? Placeholder()
-                    : Image.network(
-                  "$image",
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            Text(name??''),
-            Text(material??''),
-            Text(tutorial??''),
-            Text(difficulty??''),
-            Text(duration??''),
-          ],
+    var intDuration = int.parse(duration!);
+    return DefaultTabController(
+        length: 2,
+        initialIndex: 0,
+        child: Scaffold(
+            body: Column(
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 250,
+                        width: 450,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(25),
+                              bottomRight: Radius.circular(25)
+                          ),
+                          child: image == null ? Placeholder()
+                              : Image.network(
+                            '$image',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SafeArea(
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.deepOrangeAccent,
+                                    child: IconButton(
+                                        icon: const Icon(Icons.arrow_back),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        }),
+                                  ),
+                                ],
+                              ))),
+                    ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 25, bottom: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('$name',
+                          style: GoogleFonts.roboto(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          margin: const EdgeInsets.only(left: 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text('$difficulty',
+                                style:
+                                (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                                (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
+                              ),
+                              Text(
+                                '$duration menit',
+                                style:
+                                (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                                (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    child: TabBar(
+                        indicatorColor: Colors.deepOrangeAccent,
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.grey,
+                        tabs: [
+                          Tab(
+                            child: Text('Bahan',
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                          Tab(
+                            child: Text('Instruksi',
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                        ]
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20, right: 20),
+                      child: TabBarView(
+                        children: [
+                          Text('$material',
+                              style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )
+                          ),
+                          Text('$tutorial',
+                              style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ]
+            )
         )
     );
   }
