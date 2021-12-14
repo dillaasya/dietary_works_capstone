@@ -1,4 +1,3 @@
-import 'package:dietary_works_capstone/data/model/dummy_model.dart';
 import 'package:dietary_works_capstone/ui/add_page.dart';
 import 'package:dietary_works_capstone/ui/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
         //FavoritePage.routeName: (context) => const FavoritePage(),
         //SettingsPage.routeName: (context) => const SettingsPage(),
         AddPage.routeName: (context) => const AddPage(),
-        DetailPage.routeName: (context) => DetailPage(catalog: ModalRoute.of(context)?.settings.arguments as CatalogModel,),
+        DetailPage.routeName: (context) => DetailPage(id: ModalRoute.of(context)?.settings.arguments.toString()?? ''),
       },
     );
   }
