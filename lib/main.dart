@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         routes: {
           MainPage.routeName: (context) => const MainPage(),
           AddPage.routeName: (context) => const AddPage(),
-          DetailPage.routeName: (context) => const DetailPage(),
+          DetailPage.routeName: (context) => DetailPage(id: ModalRoute.of(context)?.settings.arguments.toString()?? ''),
         });
   }
 }
