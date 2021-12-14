@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
   static const String _homeText = 'Home';
   static const String _searchText = 'Search';
-  static const String _profileText = 'Tambah';
+  static const String _profileText = 'Profile';
 
   final List<Widget> _listWidget = [
     const ListPage(),
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     ),
     const BottomNavigationBarItem(icon: Icon(Icons.search), label: _searchText),
     const BottomNavigationBarItem(
-        icon: Icon(Icons.add), label: _profileText),
+        icon: Icon(Icons.person), label: _profileText),
   ];
 
   void _onBottomNavTapped(int index) {
