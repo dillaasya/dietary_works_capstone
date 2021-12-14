@@ -1,4 +1,4 @@
-import 'package:dietary_works_capstone/ui/add_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -46,14 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize: 15,
                               fontWeight: FontWeight.w500),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AddPage()),
-                            );
-                          });
-                        }),
+                        onPressed: () {}),
                   ),
                   Text('Other features are coming Soon!',
                       style: GoogleFonts.roboto(
