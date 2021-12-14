@@ -109,6 +109,7 @@ class _ListPageState extends State<ListPage> {
                                           e['gambar'],
                                           onUpdate: () {},
                                           onDelete: (){
+                                            //firebase_storage.FirebaseStorage.instance.ref(e['gambar']).delete();
                                             resep.doc(e.id).delete();
                                           },
                                         ))
@@ -123,7 +124,7 @@ class _ListPageState extends State<ListPage> {
                         ListView(
                           children: [
                             StreamBuilder<QuerySnapshot>(
-                                stream: resep.where('tingkat kesulitan', isEqualTo: 'Mudah').snapshots(),
+                                stream: resep.snapshots(),
                                 builder: (_, snapshot) {
                                   if (snapshot.hasData) {
                                     return Column(
@@ -150,7 +151,7 @@ class _ListPageState extends State<ListPage> {
                         ListView(
                           children: [
                             StreamBuilder<QuerySnapshot>(
-                                stream: resep.where('durasi', isLessThanOrEqualTo: 20).snapshots(),
+                                stream: resep.snapshots(),
                                 builder: (_, snapshot) {
                                   if (snapshot.hasData) {
                                     return Column(
