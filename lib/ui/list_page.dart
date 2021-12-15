@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/widget/card_recipe.dart';
 import 'package:flutter/cupertino.dart';
@@ -94,87 +96,61 @@ class _ListPageState extends State<ListPage> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        ListView(
-                          children: [
                             StreamBuilder<QuerySnapshot>(
                                 stream: resep.snapshots(),
                                 builder: (_, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Column(
-                                        children: snapshot.data!.docs
-                                            .map((e) => CardRecipe(
-                                          e['nama'],
-                                          e['durasi'],
-                                          e['tingkat kesulitan'],
-                                          e['gambar'],
-                                          onUpdate: () {},
-                                          onDelete: (){
-                                            //firebase_storage.FirebaseStorage.instance.ref(e['gambar']).delete();
-                                            resep.doc(e.id).delete();
-                                          },
-                                        ))
-                                            .toList());
+                                  if (snapshot.connectionState == ConnectionState.active) {
+                                    return ListView.builder(
+                                        itemCount: snapshot.data?.docs.length,
+                                        itemBuilder: (context, index) {
+                                          log('Index : $index');
+                                          QueryDocumentSnapshot<Object?>? ds =
+                                          snapshot.data?.docs[index];
+                                          log('Index : $ds');
+                                          return CardRecipe(ds?.id);
+                                        }
+                                    );
                                   } else {
-                                    return const Text(
-                                        'kamu belum memiliki resep. Klik ikon mengambang pada pojok kanan layar untuk menambah resep baru');
+                                    return const Center(child: CircularProgressIndicator());
                                   }
+
                                 }),
-                          ],
-                        ),
-                        ListView(
-                          children: [
                             StreamBuilder<QuerySnapshot>(
-                                stream: resep.snapshots(),
+                                stream: resep.where('tingkat kesulitan', isEqualTo: 'Mudah').snapshots(),
                                 builder: (_, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Column(
-                                        children: snapshot.data!.docs
-                                            .map((e) => CardRecipe(
-                                          e['nama'],
-                                          e['durasi'],
-                                          e['tingkat kesulitan'],
-                                          e['gambar'],
-                                          onUpdate: () {},
-                                          onDelete: (){
-                                            //firebase_storage.FirebaseStorage.instance.ref(e['gambar']).delete();
-                                            resep.doc(e.id).delete();
-                                          },
-                                        ))
-                                            .toList());
+                                  if (snapshot.connectionState == ConnectionState.active) {
+                                    return ListView.builder(
+                                        itemCount: snapshot.data?.docs.length,
+                                        itemBuilder: (context, index) {
+                                          log('Index : $index');
+                                          QueryDocumentSnapshot<Object?>? ds =
+                                          snapshot.data?.docs[index];
+                                          log('Index : $ds');
+                                          return CardRecipe(ds?.id);
+                                        }
+                                    );
                                   } else {
-                                    return const Text(
-                                        'kamu belum memiliki resep. Klik ikon mengambang pada pojok kanan layar untuk menambah resep baru');
+                                    return const Center(child: CircularProgressIndicator());
                                   }
                                 }),
-                          ],
-                        ),
-                        ListView(
-                          children: [
                             StreamBuilder<QuerySnapshot>(
-                                stream: resep.snapshots(),
+                                stream: resep.where('durasi', isLessThanOrEqualTo: 20).snapshots(),
                                 builder: (_, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Column(
-                                        children: snapshot.data!.docs
-                                            .map((e) => CardRecipe(
-                                          e['nama'],
-                                          e['durasi'],
-                                          e['tingkat kesulitan'],
-                                          e['gambar'],
-                                          onUpdate: () {},
-                                          onDelete: (){
-                                            //firebase_storage.FirebaseStorage.instance.ref(e['gambar']).delete();
-                                            resep.doc(e.id).delete();
-                                          },
-                                        ))
-                                            .toList());
+                                  if (snapshot.connectionState == ConnectionState.active) {
+                                    return ListView.builder(
+                                        itemCount: snapshot.data?.docs.length,
+                                        itemBuilder: (context, index) {
+                                          log('Index : $index');
+                                          QueryDocumentSnapshot<Object?>? ds =
+                                          snapshot.data?.docs[index];
+                                          log('Index : $ds');
+                                          return CardRecipe(ds?.id);
+                                        }
+                                    );
                                   } else {
-                                    return const Text(
-                                        'kamu belum memiliki resep. Klik ikon mengambang pada pojok kanan layar untuk menambah resep baru');
+                                    return const Center(child: CircularProgressIndicator());
                                   }
                                 }),
-                          ],
-                        ),
                       ],
                     ),
                   )
