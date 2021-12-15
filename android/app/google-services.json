@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "809705869994",
+    "project_id": "dietary-works-capstone-d742e",
+    "storage_bucket": "dietary-works-capstone-d742e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809705869994:android:3a497741862a7b422336d3",
+        "android_client_info": {
+          "package_name": "com.example.dietary_works_capstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809705869994-tqjljpff88lv4fbmm49rmb1hlhft24qt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOhNvQe9mc1rgSaXn6nUDWBCbOqwHrBHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809705869994-tqjljpff88lv4fbmm49rmb1hlhft24qt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
