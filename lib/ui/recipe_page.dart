@@ -1,30 +1,26 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dietary_works_capstone/item_card.dart';
+import 'package:dietary_works_capstone/widget/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'add_page.dart';
 
-class MainPage extends StatefulWidget {
-  static const routeName = '/main_page';
+class ProfilePage extends StatefulWidget {
+  static const routeName = '/recipe_page';
 
-  const MainPage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference resep = firestore.collection('resep');
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepOrangeAccent,
-        title: const Text('Profile'),
-      ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -33,7 +29,7 @@ class _MainPageState extends State<MainPage> {
               builder: (_, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   return ListView.builder(
-                      itemCount: snapshot.data?.docs.length ?? null,
+                      itemCount: snapshot.data?.docs.length,
                       itemBuilder: (context, index) {
                         log('Index : $index');
                         QueryDocumentSnapshot<Object?>? ds =
@@ -42,9 +38,9 @@ class _MainPageState extends State<MainPage> {
                         return ItemCard(ds?.id);
                       }
                   );
-                } else
-
+                } else {
                   return const Center(child: CircularProgressIndicator());
+                }
 
               }),
           const SizedBox(

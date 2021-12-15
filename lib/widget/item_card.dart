@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dietary_works_capstone/detail_page.dart';
-import 'package:dietary_works_capstone/main_page.dart';
+import 'package:dietary_works_capstone/ui/detail_page.dart';
+import 'package:dietary_works_capstone/ui/recipe_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +19,8 @@ class _ItemCardState extends State<ItemCard> {
   bool isLoading = false;
 
   String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
+  String? image, name, difficulty, material, tutorial;
+  String duration= '';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -60,7 +61,7 @@ class _ItemCardState extends State<ItemCard> {
   void _showDialogEdit() {
     nameController.text = name!;
     levelController.text = difficulty!;
-    durationController.text = duration!;
+    durationController.text = duration;
     materialController.text = material!;
     tutorialController.text = tutorial!;
 
@@ -87,7 +88,8 @@ class _ItemCardState extends State<ItemCard> {
                               validator: (value) {
                                 if (value!.isNotEmpty && value.length > 2) {
                                   return null;
-                                } else if (value.length < 5 && value.isNotEmpty) {
+                                } else
+                                if (value.length < 5 && value.isNotEmpty) {
                                   return 'Nama resep anda terlalu singkat!';
                                 } else {
                                   return 'Tidak boleh kosong!';
@@ -95,7 +97,7 @@ class _ItemCardState extends State<ItemCard> {
                               },
                               style: GoogleFonts.poppins(),
                               controller: nameController,
-                              decoration:  InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: "Nama resep",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -126,7 +128,8 @@ class _ItemCardState extends State<ItemCard> {
                                   ),
                                 ),
                                 contentPadding:
-                                const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                                const EdgeInsets.only(
+                                    left: 24.0, top: 18, bottom: 18),
                               ),
                             ),
                           ),
@@ -175,7 +178,8 @@ class _ItemCardState extends State<ItemCard> {
                                   ),
                                 ),
                                 contentPadding:
-                                const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                                const EdgeInsets.only(
+                                    left: 24.0, top: 18, bottom: 18),
                               ),
                               keyboardType: TextInputType.multiline,
                             ),
@@ -193,7 +197,7 @@ class _ItemCardState extends State<ItemCard> {
                               style: GoogleFonts.poppins(),
                               maxLines: 7,
                               controller: tutorialController,
-                              decoration:  InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: "Instruksi memasak",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -224,7 +228,8 @@ class _ItemCardState extends State<ItemCard> {
                                   ),
                                 ),
                                 contentPadding:
-                                const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                                const EdgeInsets.only(
+                                    left: 24.0, top: 18, bottom: 18),
                               ),
                               keyboardType: TextInputType.multiline,
                             ),
@@ -272,7 +277,8 @@ class _ItemCardState extends State<ItemCard> {
                                   ),
                                 ),
                                 contentPadding:
-                                const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                                const EdgeInsets.only(
+                                    left: 24.0, top: 18, bottom: 18),
                               ),
                               keyboardType: TextInputType.number,
                             ),
@@ -356,13 +362,20 @@ class _ItemCardState extends State<ItemCard> {
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: ElevatedButton(
                                 style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(const EdgeInsets.only(top: 18, bottom: 18)),
-                                    minimumSize: MaterialStateProperty.all<Size>(const Size(350, 0)),
-                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    padding: MaterialStateProperty.all(
+                                        const EdgeInsets.only(
+                                            top: 18, bottom: 18)),
+                                    minimumSize: MaterialStateProperty.all<
+                                        Size>(const Size(350, 0)),
+                                    backgroundColor: MaterialStateProperty.all<
+                                        Color>(Colors.deepOrangeAccent),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(18.0),
-                                            side: const BorderSide(color: Colors.deepOrangeAccent)
+                                            borderRadius: BorderRadius.circular(
+                                                18.0),
+                                            side: const BorderSide(
+                                                color: Colors.deepOrangeAccent)
                                         )
                                     )
                                 ),
@@ -415,108 +428,121 @@ class _ItemCardState extends State<ItemCard> {
 
   @override
   Widget build(BuildContext context) {
-    var intDuration = int.parse(duration!);
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, DetailPage.routeName, arguments: id);
-      },
-      child: Padding(
-        padding: EdgeInsets.all(15),
-        child: Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 90,
-                      width: 110,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(14), bottom: Radius.circular(14)),
-                        child: image == null ? Placeholder()
-                            : Image.network(
-                          "$image",
-                          fit: BoxFit.cover,
+        onTap: () {
+          Navigator.pushNamed(context, DetailPage.routeName, arguments: id);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 90,
+                        width: 100,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(14),
+                              bottom: Radius.circular(14)),
+                          child: image == null ? const Placeholder()
+                              : Image.network(
+                            "$image",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(name ?? '',
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600, fontSize: 16)),
-                          Text(
-                            "$duration menit",
-                            style:
-                            (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
-                            (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
-                            GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
-                          ),
-                          Text(
-                            "$difficulty",
-                            style:
-                            (difficulty == 'Sulit')? GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.red) :
-                            (difficulty == 'Sedang')? GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
-                            GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.green)
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(name ?? '',
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600, fontSize: 16)),
+                            Text(
+                                "$duration menit",
+                                style:
+                                ((int.tryParse(duration) ?? 0) > 30)
+                                    ? GoogleFonts.roboto(fontWeight: FontWeight
+                                    .w300, color: Colors.red)
+                                    :
+                                ((int.tryParse(duration) ?? 0) >= 15 && (int
+                                    .tryParse(duration) ?? 0) < 30)
+                                    ? GoogleFonts.roboto(fontWeight: FontWeight
+                                    .w300, color: Colors.yellow.shade700)
+                                    :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300,
+                                    color: Colors.green)
+                            ),
+                            Text(
+                                "$difficulty",
+                                style:
+                                (difficulty == 'Sulit') ? GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w300, color: Colors
+                                    .red) :
+                                (difficulty == 'Sedang') ? GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.yellow.shade700) :
+                                GoogleFonts.poppins(fontWeight: FontWeight.w300,
+                                    color: Colors.green)
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
 
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            onPrimary: Colors.white,
-                            primary: Colors.green,
-                            shadowColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                          ),
-                          child: const Center(
-                              child: Icon(
-                                Icons.arrow_upward,
-                                color: Colors.white,
-                              )),
-                          onPressed: () {
-                            _showDialogEdit();
-                          }
-                      ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            onPrimary: Colors.white,
-                            primary: Colors.red,
-                            shadowColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                          ),
-                          child: const Center(
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              )),
-                          onPressed: () {
-                            onDelete();
-                          }),
                     ],
                   ),
-                )
-              ],
-            )
-        ),
-      )
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.white,
+                              primary: Colors.green,
+                              shadowColor: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                            child: const Center(
+                                child: Icon(
+                                  Icons.arrow_upward,
+                                  color: Colors.white,
+                                )),
+                            onPressed: () {
+                              _showDialogEdit();
+                            }
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.white,
+                              primary: Colors.red,
+                              shadowColor: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                            child: const Center(
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                )),
+                            onPressed: () {
+                              onDelete();
+                            }),
+                      ],
+                    ),
+                  )
+                ],
+              )
+          ),
+        )
     );
   }
 
@@ -535,7 +561,7 @@ class _ItemCardState extends State<ItemCard> {
   void onDelete() async {
     await resep?.doc(id).delete();
     await FirebaseStorage.instance.refFromURL(image!).delete();
-    Navigator.pushReplacementNamed(context, MainPage.routeName);
+    Navigator.pushReplacementNamed(context, ProfilePage.routeName);
   }
 
   void updateItem(String id) {
@@ -550,17 +576,20 @@ class _ItemCardState extends State<ItemCard> {
 
     if (_formKeyValue.currentState!.validate()) {
       resep?.doc(id).update({
-        "nama" : name,
-        "durasi" : duration,
-        "tingkat kesulitan" : difficulty,
-        "instruksi memasak" : tutorial,
-        "bahan" : material,
+        "nama": name,
+        "durasi": duration,
+        "tingkat kesulitan": difficulty,
+        "instruksi memasak": tutorial,
+        "bahan": material,
 
       });
 
-      Navigator.pop(context);  ///Buat hilangin Dialog
-      Navigator.pushReplacementNamed(context, MainPage.routeName); ///Buat refresh halaman
-    }
+      Navigator.pop(context);
 
+      ///Buat hilangin Dialog
+      Navigator.pushReplacementNamed(context, ProfilePage.routeName);
+
+      ///Buat refresh halaman
+    }
   }
 }

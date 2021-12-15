@@ -24,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Browse another recipe'),
+                  const Text('Browse another recipe'),
                   Text('Coming Soon!',
                       style: GoogleFonts.roboto(
                         fontSize: 18,
