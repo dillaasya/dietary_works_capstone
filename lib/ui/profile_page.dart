@@ -25,29 +25,6 @@ class _ProfilePageState extends State<ProfilePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            padding: MaterialStateProperty.all(const EdgeInsets.only(top: 18, bottom: 18)),
-                            minimumSize: MaterialStateProperty.all<Size>(const Size(350, 0)),
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    side: const BorderSide(color: Colors.deepOrangeAccent)
-                                )
-                            )
-                        ),
-                        child: Text(
-                          'Tambah Resep',
-                          style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        onPressed: () {}),
-                  ),
                   Text('Other features are coming Soon!',
                       style: GoogleFonts.roboto(
                         fontSize: 18,
