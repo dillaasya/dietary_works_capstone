@@ -67,7 +67,7 @@ class _CardRecipeState extends State<CardRecipe> {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(14), bottom: Radius.circular(14)),
-                    child: image == null ? Placeholder()
+                    child: image == null ? const Placeholder()
                         : Image.network(
                       image??'',
                       fit: BoxFit.cover,
@@ -108,7 +108,7 @@ class _CardRecipeState extends State<CardRecipe> {
                               "$duration menit",
                               style:
                               (intDuration > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
-                              (intDuration >= 15 && intDuration < 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                              (intDuration >= 15 && intDuration <= 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
                               GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
                           ),
                         ],
