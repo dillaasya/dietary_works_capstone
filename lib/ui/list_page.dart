@@ -99,8 +99,14 @@ class _ListPageState extends State<ListPage> {
                             StreamBuilder<QuerySnapshot>(
                                 stream: resep.snapshots(),
                                 builder: (_, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.active) {
-                                    return ListView.builder(
+                                  if (snapshot.hasError) {
+                                    return Text('Error : ${snapshot.error}');
+                                  }
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting :
+                                      return const Center(child: CircularProgressIndicator());
+                                    default:
+                                      return ListView.builder(
                                         itemCount: snapshot.data?.docs.length,
                                         itemBuilder: (context, index) {
                                           log('Index : $index');
@@ -110,45 +116,50 @@ class _ListPageState extends State<ListPage> {
                                           return CardRecipe(ds?.id);
                                         }
                                     );
-                                  } else {
-                                    return const Center(child: CircularProgressIndicator());
                                   }
-
                                 }),
                             StreamBuilder<QuerySnapshot>(
                                 stream: resep.where('tingkat kesulitan', isEqualTo: 'Mudah').snapshots(),
                                 builder: (_, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.active) {
-                                    return ListView.builder(
-                                        itemCount: snapshot.data?.docs.length,
-                                        itemBuilder: (context, index) {
-                                          log('Index : $index');
-                                          QueryDocumentSnapshot<Object?>? ds =
-                                          snapshot.data?.docs[index];
-                                          log('Index : $ds');
-                                          return CardRecipe(ds?.id);
-                                        }
-                                    );
-                                  } else {
-                                    return const Center(child: CircularProgressIndicator());
+                                  if (snapshot.hasError) {
+                                    return Text('Error : ${snapshot.error}');
+                                  }
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting :
+                                      return const Center(child: CircularProgressIndicator());
+                                    default:
+                                      return ListView.builder(
+                                          itemCount: snapshot.data?.docs.length,
+                                          itemBuilder: (context, index) {
+                                            log('Index : $index');
+                                            QueryDocumentSnapshot<Object?>? ds =
+                                            snapshot.data?.docs[index];
+                                            log('Index : $ds');
+                                            return CardRecipe(ds?.id);
+                                          }
+                                      );
                                   }
                                 }),
                             StreamBuilder<QuerySnapshot>(
                                 stream: resep.where('durasi', isLessThanOrEqualTo: 20).snapshots(),
                                 builder: (_, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.active) {
-                                    return ListView.builder(
-                                        itemCount: snapshot.data?.docs.length,
-                                        itemBuilder: (context, index) {
-                                          log('Index : $index');
-                                          QueryDocumentSnapshot<Object?>? ds =
-                                          snapshot.data?.docs[index];
-                                          log('Index : $ds');
-                                          return CardRecipe(ds?.id);
-                                        }
-                                    );
-                                  } else {
-                                    return const Center(child: CircularProgressIndicator());
+                                  if (snapshot.hasError) {
+                                    return Text('Error : ${snapshot.error}');
+                                  }
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting :
+                                      return const Center(child: CircularProgressIndicator());
+                                    default:
+                                      return ListView.builder(
+                                          itemCount: snapshot.data?.docs.length,
+                                          itemBuilder: (context, index) {
+                                            log('Index : $index');
+                                            QueryDocumentSnapshot<Object?>? ds =
+                                            snapshot.data?.docs[index];
+                                            log('Index : $ds');
+                                            return CardRecipe(ds?.id);
+                                          }
+                                      );
                                   }
                                 }),
                       ],
