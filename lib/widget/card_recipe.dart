@@ -49,6 +49,7 @@ class _CardRecipeState extends State<CardRecipe> {
 
   @override
   Widget build(BuildContext context) {
+    var intDuration = int.parse(duration!);
     return InkWell(
         onTap: () {Navigator.pushNamed(context, DetailPage.routeName, arguments: id);},
         child: Card(
@@ -75,35 +76,47 @@ class _CardRecipeState extends State<CardRecipe> {
                 )),
             Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name??'',
-                    style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 7),
-                  Row(
-                    children: [
-                      Text(
-                        "$duration menit",
-                        style: GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.orange),
+              child: Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        name??'',
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                        style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w400),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 7),
-                  Row(
-                    children: [
-                      Text(
-                        difficulty??'',
-                        style:  (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
-                                (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade600) :
-                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
+                    ),
+                    const SizedBox(height: 7),
+                    SizedBox(
+                      width: 150,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              difficulty??'',
+                              style:  (difficulty == 'Sulit')? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
+                              (difficulty == 'Sedang')? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                              GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
+                          ),
+                          Text(
+                              "$duration menit",
+                              style:
+                              (intDuration > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
+                              (intDuration >= 15 && intDuration < 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                              GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 7),
+                  ],
+                ),
               ),
             )
           ]),
