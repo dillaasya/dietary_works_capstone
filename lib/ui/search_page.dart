@@ -18,12 +18,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String recipe = "";
 
-  void initiateSearch(String val) {
-    setState(() {
-      recipe = val.toLowerCase().trim();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -46,14 +40,18 @@ class _SearchPageState extends State<SearchPage> {
                   )
               ),
               TextField(
-                onChanged: (val) => initiateSearch(val),
+                onChanged: (val) {
+                  setState(() {
+                    recipe = val.toLowerCase().trim();
+                  });
+                }
               ),
               const SizedBox(
                 height: 25,
               ),
               StreamBuilder<QuerySnapshot>(
                   stream: recipe != "" && recipe != null
-                      ? resep.where("nama", isEqualTo: recipe).snapshots()
+                      ? resep.where("namaSearchKey", arrayContains: recipe).snapshots()
                       : resep.snapshots(),
                   builder: (_, snapshot) {
                     if (snapshot.hasError) {

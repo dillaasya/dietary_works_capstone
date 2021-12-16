@@ -432,11 +432,22 @@ class _AddPageState extends State<AddPage> {
 
   void postItem() {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference resep = firestore.collection('resep');
+    CollectionReference recipe = firestore.collection('resep');
+
+    setRecipeSearchKey(String caseNumber) {
+      List<String> caseSearchList = [];
+      String temp = "";
+      for (int i = 0; i < caseNumber.length; i++) {
+        temp = temp + caseNumber[i];
+        caseSearchList.add(temp.toLowerCase());
+      }
+      return caseSearchList;
+    }
 
     if (_formKeyValue.currentState!.validate()) {
-      resep.add({
+      recipe.add({
         'nama': nameController.text,
+        'namaSearchKey': setRecipeSearchKey(nameController.text),
         'durasi': int.tryParse(durationController.text) ?? 0,
         'bahan': materialController.text,
         'instruksi memasak': tutorialController.text,
