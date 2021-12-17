@@ -67,7 +67,7 @@ class _CardRecipeState extends State<CardRecipe> {
           child: Row(children: <Widget>[
             SizedBox(
                 height: 90,
-                width: 110,
+                width: 100,
                 child: Hero(
                   tag: image.toString(),
                   child: ClipRRect(
