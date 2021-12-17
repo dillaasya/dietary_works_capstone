@@ -111,13 +111,6 @@ class _DetailPageState extends State<DetailPage> {
                                 (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
                                 GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
                               ),
-                              Text(
-                                '$duration menit',
-                                style:
-                                (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
-                                (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
-                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
-                              )
                             ],
                           ),
                         ),
