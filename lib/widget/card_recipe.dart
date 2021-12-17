@@ -67,7 +67,7 @@ class _CardRecipeState extends State<CardRecipe> {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(14), bottom: Radius.circular(14)),
-                    child: image == null ? Placeholder()
+                    child: image == null ? const Placeholder()
                         : Image.network(
                       image??'',
                       fit: BoxFit.cover,

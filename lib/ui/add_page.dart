@@ -44,7 +44,7 @@ class _AddPageState extends State<AddPage> {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 14, top: 22),
+                padding: const EdgeInsets.only(left: 14, top: 22),
                 child: Row(
                   children: [
                     CircleAvatar(

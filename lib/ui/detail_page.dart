@@ -1,20 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
   static const routeName = '/detail_page';
-  final String id;
 
-  DetailPage({Key? key, required this.id}) : super(key: key);
+  final String id;
+  const DetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+
   String id = '';
   String? image, name, difficulty, material, tutorial;
   String duration='';
@@ -28,18 +27,6 @@ class _DetailPageState extends State<DetailPage> {
     firestore = FirebaseFirestore.instance;
     resep = firestore!.collection('resep');
     getData();
-  }
-
-  void getData() {
-    resep?.doc(id).get().then((value) {
-      name = value.get('nama');
-      duration = value.get('durasi').toString();
-      difficulty = value.get('tingkat kesulitan');
-      image = value.get('gambar');
-      material = value.get('bahan');
-      tutorial = value.get('instruksi memasak');
-      setState(() {});
-    });
   }
 
   @override
@@ -61,7 +48,7 @@ class _DetailPageState extends State<DetailPage> {
                               bottomLeft: Radius.circular(25),
                               bottomRight: Radius.circular(25)
                           ),
-                          child: image == null ? Placeholder()
+                          child: image == null ? const Placeholder()
                               : Image.network(
                             '$image',
                             fit: BoxFit.cover,
@@ -119,11 +106,18 @@ class _DetailPageState extends State<DetailPage> {
                                 ],
                               ),
                               Text('$difficulty',
-                                  style:
-                                  (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
-                                  (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
-                                  GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                style:
+                                (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                                (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
                               ),
+                              Text(
+                                '$duration menit',
+                                style:
+                                (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                                (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
+                              )
                             ],
                           ),
                         ),
@@ -179,6 +173,17 @@ class _DetailPageState extends State<DetailPage> {
             )
         )
     );
+  }
 
+  void getData() {
+    resep?.doc(id).get().then((value) {
+      name = value.get('nama');
+      duration = value.get('durasi').toString();
+      difficulty = value.get('tingkat kesulitan');
+      image = value.get('gambar');
+      material = value.get('bahan');
+      tutorial = value.get('instruksi memasak');
+      setState(() {});
+    });
   }
 }

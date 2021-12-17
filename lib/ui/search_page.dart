@@ -25,14 +25,16 @@ class _SearchPageState extends State<SearchPage> {
               const SizedBox(
                 height: 25,
               ),
-              Text('Search feature are coming soon!',
-                  style: GoogleFonts.roboto(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  )
-              ),
-              const SizedBox(
-                height: 25,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Browse another recipe'),
+                  Text('Coming Soon!',
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      )),
+                ],
               ),
             ],
           ),
