@@ -15,7 +15,8 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
 
   String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
+  String? image, name, difficulty, material, tutorial;
+  String duration='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -30,7 +31,6 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    var intDuration = int.parse(duration!);
     return DefaultTabController(
         length: 2,
         initialIndex: 0,
@@ -41,7 +41,7 @@ class _DetailPageState extends State<DetailPage> {
                     clipBehavior: Clip.none,
                     children: <Widget>[
                       SizedBox(
-                        height: 250,
+                        height: 300,
                         width: 450,
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(
@@ -75,7 +75,7 @@ class _DetailPageState extends State<DetailPage> {
                     ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20, top: 25, bottom: 25),
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -85,13 +85,26 @@ class _DetailPageState extends State<DetailPage> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 15),
                         Container(
                           margin: const EdgeInsets.only(left: 0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.access_time),
+                                  SizedBox(width: 5),
+                                  Text(
+                                      '$duration menit',
+                                      style:
+                                      ((int.tryParse(duration)??0) > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
+                                      ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
+                                      GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                  ),
+                                ],
+                              ),
                               Text('$difficulty',
                                 style:
                                 (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
@@ -112,7 +125,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20),
+
                     child: TabBar(
                         indicatorColor: Colors.deepOrangeAccent,
                         labelColor: Colors.black,
@@ -120,14 +133,14 @@ class _DetailPageState extends State<DetailPage> {
                         tabs: [
                           Tab(
                             child: Text('Bahan',
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                 )),
                           ),
                           Tab(
                             child: Text('Instruksi',
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                 )),
@@ -137,19 +150,19 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(left: 20, right: 20),
+                      margin: const EdgeInsets.only(top: 15, left: 20, right: 20),
                       child: TabBarView(
                         children: [
                           Text('$material',
                               style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
                               )
                           ),
                           Text('$tutorial',
                               style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
                               )
                           ),
                         ],
