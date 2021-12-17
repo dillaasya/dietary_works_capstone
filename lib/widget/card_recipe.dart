@@ -13,7 +13,8 @@ class CardRecipe extends StatefulWidget {
 
 class _CardRecipeState extends State<CardRecipe> {
   String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
+  String? image, name,difficulty, material, tutorial;
+  String duration='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -49,7 +50,6 @@ class _CardRecipeState extends State<CardRecipe> {
 
   @override
   Widget build(BuildContext context) {
-    var intDuration = int.parse(duration!);
     return InkWell(
         onTap: () {Navigator.pushNamed(context, DetailPage.routeName, arguments: id);},
         child: Card(
@@ -74,9 +74,7 @@ class _CardRecipeState extends State<CardRecipe> {
                     ),
                   ),
                 )),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Expanded(
+            Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,8 +105,8 @@ class _CardRecipeState extends State<CardRecipe> {
                           Text(
                               "$duration menit",
                               style:
-                              (intDuration > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
-                              (intDuration >= 15 && intDuration <= 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                              ((int.tryParse(duration) ?? 0) > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
+                              ((int.tryParse(duration) ?? 0) >= 15 && (int.tryParse(duration) ?? 0) <= 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
                               GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
                           ),
                         ],
@@ -118,7 +116,6 @@ class _CardRecipeState extends State<CardRecipe> {
                   ],
                 ),
               ),
-            )
           ]),
         )
 
