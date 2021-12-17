@@ -16,7 +16,8 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
+  String? image, name, difficulty, material, tutorial;
+  String duration='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -43,7 +44,6 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    var intDuration = int.parse(duration!);
     return DefaultTabController(
         length: 2,
         initialIndex: 0,
@@ -103,14 +103,20 @@ class _DetailPageState extends State<DetailPage> {
                           margin: const EdgeInsets.only(left: 0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                  '$duration menit',
-                                  style:
-                                  (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
-                                  (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
-                                  GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                              Row(
+                                children: [
+                                  Icon(Icons.access_time),
+                                  SizedBox(width: 5),
+                                  Text(
+                                      '$duration menit',
+                                      style:
+                                      ((int.tryParse(duration)??0) > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
+                                      ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
+                                      GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                  ),
+                                ],
                               ),
                               Text('$difficulty',
                                   style:
@@ -150,7 +156,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                      margin: const EdgeInsets.only(top: 15, left: 20, right: 20),
                       child: TabBarView(
                         children: [
                           Text('$material',

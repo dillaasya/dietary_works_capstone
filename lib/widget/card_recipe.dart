@@ -67,15 +67,17 @@ class _CardRecipeState extends State<CardRecipe> {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(14), bottom: Radius.circular(14)),
-                    child: image == null ? const Placeholder()
+                    child: image == null ? Placeholder()
                         : Image.network(
                       image??'',
                       fit: BoxFit.cover,
                     ),
                   ),
                 )),
-            Expanded(
-                child: Column(
+            SizedBox(
+              width: 10,
+            ),
+            Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -115,7 +117,7 @@ class _CardRecipeState extends State<CardRecipe> {
                     const SizedBox(height: 7),
                   ],
                 ),
-              ),
+
           ]),
         )
 
