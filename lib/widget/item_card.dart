@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/ui/detail_page.dart';
-import 'package:dietary_works_capstone/ui/recipe_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,12 +21,12 @@ class _ItemCardState extends State<ItemCard> {
 
   String id = '';
   String? image, name, difficulty, material, tutorial;
-  String duration= '';
+  String duration = '';
+  String calory = '';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
   String? tingkatKesulitan = 'Mudah';
-
   final kesulitan = ["Mudah", "Sedang", "Sulit"];
 
   final TextEditingController nameController = TextEditingController();
@@ -33,6 +34,7 @@ class _ItemCardState extends State<ItemCard> {
   final TextEditingController durationController = TextEditingController();
   final TextEditingController materialController = TextEditingController();
   final TextEditingController tutorialController = TextEditingController();
+  final TextEditingController caloryController = TextEditingController();
 
   @override
   void initState() {
@@ -50,18 +52,21 @@ class _ItemCardState extends State<ItemCard> {
     durationController.clear();
     materialController.clear();
     tutorialController.clear();
+    caloryController.clear();
     name = '';
     duration = '';
     difficulty = '';
     image = '';
     material = '';
     tutorial = '';
+    calory = '';
   }
 
   void _showDialogEdit() {
     nameController.text = name!;
     levelController.text = difficulty!;
     durationController.text = duration;
+    caloryController.text = calory;
     materialController.text = material!;
     tutorialController.text = tutorial!;
 
@@ -99,6 +104,7 @@ class _ItemCardState extends State<ItemCard> {
                               controller: nameController,
                               decoration: InputDecoration(
                                 hintText: "Nama resep",
+                                labelText: "Nama resep",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -133,7 +139,56 @@ class _ItemCardState extends State<ItemCard> {
                               ),
                             ),
                           ),
-
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Tidak boleh kosong!';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              style: GoogleFonts.poppins(),
+                              controller: caloryController,
+                              decoration: InputDecoration(
+                                hintText: "Jumlah kalori (opsional)",
+                                labelText: "Jumlah kalori (opsional)",
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.deepOrangeAccent,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                contentPadding:
+                                const EdgeInsets.only(
+                                    left: 24.0, top: 18, bottom: 18),
+                              ),
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFormField(
@@ -149,6 +204,7 @@ class _ItemCardState extends State<ItemCard> {
                               controller: materialController,
                               decoration: InputDecoration(
                                 hintText: "Bahan-bahan",
+                                labelText: "Bahan-bahan",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -199,6 +255,7 @@ class _ItemCardState extends State<ItemCard> {
                               controller: tutorialController,
                               decoration: InputDecoration(
                                 hintText: "Instruksi memasak",
+                                labelText: "Instruksi memasak",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -248,6 +305,7 @@ class _ItemCardState extends State<ItemCard> {
                               controller: durationController,
                               decoration: InputDecoration(
                                 hintText: "Durasi memasak (menit)",
+                                labelText: "Durasi memasak (menit)",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -432,116 +490,140 @@ class _ItemCardState extends State<ItemCard> {
         onTap: () {
           Navigator.pushNamed(context, DetailPage.routeName, arguments: id);
         },
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.only(left:16, right:16),
+              child: Card(
+                margin: const EdgeInsets.only(left:16,right:16),
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Column(
+                  children: [
+                    Row(children: <Widget>[
                       SizedBox(
-                        height: 90,
-                        width: 100,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(14),
-                              bottom: Radius.circular(14)),
-                          child: image == null ? const Placeholder()
-                              : Image.network(
-                            "$image",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                          height: 90,
+                          width: 110,
+                          child: Hero(
+                            tag: image.toString(),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(14), bottom: Radius.circular(14)),
+                              child: image == null ? Image.network('https://th.bing.com/th/id/OIP.r4eciF-FM2-3WdhvxTmGEgHaHa?pid=ImgDet&rs=1')
+                                  : Image.network(
+                                image??'',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )),
+                      const SizedBox(
+                        width: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(name ?? '',
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600, fontSize: 16)),
-                            Text(
-                                "$duration menit",
-                                style:
-                                ((int.tryParse(duration) ?? 0) > 30)
-                                    ? GoogleFonts.roboto(fontWeight: FontWeight
-                                    .w300, color: Colors.red)
-                                    :
-                                ((int.tryParse(duration) ?? 0) >= 15 && (int
-                                    .tryParse(duration) ?? 0) < 30)
-                                    ? GoogleFonts.roboto(fontWeight: FontWeight
-                                    .w300, color: Colors.yellow.shade700)
-                                    :
-                                GoogleFonts.roboto(fontWeight: FontWeight.w300,
-                                    color: Colors.green)
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: Text(
+                              name??'',
+                              maxLines: 1,
+                              overflow: TextOverflow.fade,
+                              softWrap: false,
+                              style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.w400),
                             ),
-                            Text(
-                                "$difficulty",
-                                style:
-                                (difficulty == 'Sulit') ? GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w300, color: Colors
-                                    .red) :
-                                (difficulty == 'Sedang') ? GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.yellow.shade700) :
-                                GoogleFonts.poppins(fontWeight: FontWeight.w300,
-                                    color: Colors.green)
+                          ),
+                          const SizedBox(height: 7),
+                          SizedBox(
+                            width: 150,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    difficulty??'',
+                                    style:  (difficulty == 'Sulit')? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
+                                    (difficulty == 'Sedang')? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                    GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
+                                ),
+                                Text(
+                                    "$duration menit",
+                                    style:
+                                    ((int.tryParse(duration) ?? 0) > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
+                                    ((int.tryParse(duration) ?? 0) >= 15 && (int.tryParse(duration) ?? 0) <= 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                    GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 7),
+                        ],
                       ),
 
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5),
-                    child: Row(
+
+                    ]),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              onPrimary: Colors.white,
-                              primary: Colors.green,
-                              shadowColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: const Center(
-                                child: Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.white,
-                                )),
-                            onPressed: () {
-                              _showDialogEdit();
-                            }
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              onPrimary: Colors.white,
-                              primary: Colors.red,
-                              shadowColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: const Center(
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                )),
-                            onPressed: () {
-                              onDelete();
-                            }),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5),
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    onPrimary: Colors.white,
+                                    primary: Colors.green,
+                                    shadowColor: Colors.grey,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  child: const Center(
+                                      child: Icon(
+                                        Icons.arrow_upward,
+                                        color: Colors.white,
+                                      )),
+                                  onPressed: () {
+                                    _showDialogEdit();
+                                  }
+                              ),
+                              SizedBox(width: 5,),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    onPrimary: Colors.white,
+                                    primary: Colors.red,
+                                    shadowColor: Colors.grey,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  child: const Center(
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      )),
+                                  onPressed: () {
+
+                                    onDelete();
+
+                                    if (mounted) {
+                                      setState(() {
+                                        FirebaseStorage.instance.refFromURL(image??'').delete();
+                                      });
+                                    }
+                                  }),
+                            ],
+                          ),
+                        )
                       ],
-                    ),
-                  )
-                ],
-              )
-          ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         )
     );
   }
@@ -552,44 +634,67 @@ class _ItemCardState extends State<ItemCard> {
       duration = value.get('durasi').toString();
       difficulty = value.get('tingkat kesulitan');
       image = value.get('gambar');
+      log('Url : $image' );
       material = value.get('bahan');
       tutorial = value.get('instruksi memasak');
-      setState(() {});
+      calory = value.get('jumlah kalori').toString();
+      if (mounted) {
+        setState(() {
+        });
+      }
     });
   }
 
+
   void onDelete() async {
     await resep?.doc(id).delete();
-    await FirebaseStorage.instance.refFromURL(image!).delete();
-    Navigator.pushReplacementNamed(context, ProfilePage.routeName);
+    if (mounted) {
+      setState(() {
+      });
+    }
+
   }
 
   void updateItem(String id) {
     ///Progress Loading TRUE/1/ON/HIGH
     int duration;
+    int calory;
 
     name = nameController.text;
     material = materialController.text;
     tutorial = tutorialController.text;
     duration = int.tryParse(durationController.text) ?? 0;
+    calory = int.tryParse(caloryController.text) ?? 0;
     difficulty = tingkatKesulitan;
+
+    setRecipeSearchKey(String caseNumber) {
+      List<String> caseSearchList = [];
+      String temp = "";
+      for (int i = 0; i < caseNumber.length; i++) {
+        temp = temp + caseNumber[i];
+        caseSearchList.add(temp.toLowerCase());
+      }
+      return caseSearchList;
+    }
 
     if (_formKeyValue.currentState!.validate()) {
       resep?.doc(id).update({
         "nama": name,
+        'namaSearchKey': setRecipeSearchKey(nameController.text),
         "durasi": duration,
+        "jumlah kalori": calory,
         "tingkat kesulitan": difficulty,
         "instruksi memasak": tutorial,
         "bahan": material,
 
       });
 
-      Navigator.pop(context);
 
-      ///Buat hilangin Dialog
-      Navigator.pushReplacementNamed(context, ProfilePage.routeName);
-
-      ///Buat refresh halaman
+      if (mounted) {
+        setState(() {
+          Navigator.pop(context);
+        });
+      }
     }
   }
 }

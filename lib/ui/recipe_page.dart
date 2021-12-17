@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'add_page.dart';
 
-class ProfilePage extends StatefulWidget {
+class RecipePage extends StatefulWidget {
   static const routeName = '/recipe_page';
 
-  const ProfilePage({Key? key}) : super(key: key);
+  const RecipePage({Key? key}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _RecipePageState createState() => _RecipePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -27,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
           StreamBuilder<QuerySnapshot>(
               stream: resep.snapshots(),
               builder: (_, snapshot) {
+
                 if (snapshot.connectionState == ConnectionState.active) {
                   return ListView.builder(
                       itemCount: snapshot.data?.docs.length,

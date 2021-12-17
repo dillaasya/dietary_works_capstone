@@ -15,6 +15,7 @@ class _CardRecipeState extends State<CardRecipe> {
   String id = '';
   String? image, name,difficulty, material, tutorial;
   String duration='';
+  String calory='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -26,6 +27,7 @@ class _CardRecipeState extends State<CardRecipe> {
   final TextEditingController durationController = TextEditingController();
   final TextEditingController materialController = TextEditingController();
   final TextEditingController tutorialController = TextEditingController();
+  final TextEditingController caloryController = TextEditingController();
 
   @override
   void initState() {
@@ -44,7 +46,11 @@ class _CardRecipeState extends State<CardRecipe> {
       image = value.get('gambar');
       material = value.get('bahan');
       tutorial = value.get('instruksi memasak');
-      setState(() {});
+      calory = value.get('jumlah kalori').toString();
+      if (mounted) {
+        setState(() {
+        });
+      }
     });
   }
 
@@ -67,7 +73,7 @@ class _CardRecipeState extends State<CardRecipe> {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(14), bottom: Radius.circular(14)),
-                    child: image == null ? const Placeholder()
+                    child: image == null ? Image.network('https://th.bing.com/th/id/OIP.r4eciF-FM2-3WdhvxTmGEgHaHa?pid=ImgDet&rs=1')
                         : Image.network(
                       image??'',
                       fit: BoxFit.cover,

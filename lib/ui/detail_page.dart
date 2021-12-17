@@ -17,6 +17,7 @@ class _DetailPageState extends State<DetailPage> {
   String id = '';
   String? image, name, difficulty, material, tutorial;
   String duration='';
+  String calory='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -48,7 +49,7 @@ class _DetailPageState extends State<DetailPage> {
                               bottomLeft: Radius.circular(25),
                               bottomRight: Radius.circular(25)
                           ),
-                          child: image == null ? const Placeholder()
+                          child: image == null ? Image.network('https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg')
                               : Image.network(
                             '$image',
                             fit: BoxFit.cover,
@@ -94,8 +95,8 @@ class _DetailPageState extends State<DetailPage> {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.access_time),
-                                  SizedBox(width: 5),
+                                  const Icon(Icons.access_time),
+                                  const SizedBox(width: 5),
                                   Text(
                                       '$duration menit',
                                       style:
@@ -114,32 +115,37 @@ class _DetailPageState extends State<DetailPage> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 5,),
+                        Row(
+                          children: [
+                            const Icon(Icons.assignment_turned_in_outlined),
+                            const SizedBox(width: 5),
+                            Text('$calory kkal', style: GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.black),),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                  Container(
-
-                    child: TabBar(
-                        indicatorColor: Colors.deepOrangeAccent,
-                        labelColor: Colors.black,
-                        unselectedLabelColor: Colors.grey,
-                        tabs: [
-                          Tab(
-                            child: Text('Bahan',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                          Tab(
-                            child: Text('Instruksi',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                        ]
-                    ),
+                  TabBar(
+                      indicatorColor: Colors.deepOrangeAccent,
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      tabs: [
+                        Tab(
+                          child: Text('Bahan',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                        Tab(
+                          child: Text('Instruksi',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                      ]
                   ),
                   Expanded(
                     child: Container(
@@ -176,6 +182,7 @@ class _DetailPageState extends State<DetailPage> {
       image = value.get('gambar');
       material = value.get('bahan');
       tutorial = value.get('instruksi memasak');
+      calory = value.get('jumlah kalori').toString();
       setState(() {});
     });
   }
