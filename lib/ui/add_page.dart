@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dietary_works_capstone/ui/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
@@ -28,6 +27,7 @@ class _AddPageState extends State<AddPage> {
   final TextEditingController durationController = TextEditingController();
   final TextEditingController materialController = TextEditingController();
   final TextEditingController tutorialController = TextEditingController();
+  final TextEditingController caloryController = TextEditingController();
 
   File? image, _imageItem;
   String? _urlItemImage;
@@ -44,7 +44,7 @@ class _AddPageState extends State<AddPage> {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 14, top: 22),
+                padding: const EdgeInsets.only(left: 14, top: 22),
                 child: Row(
                   children: [
                     CircleAvatar(
@@ -151,18 +151,59 @@ class _AddPageState extends State<AddPage> {
                               });
 
                               SnackBar snackBarWaiting = const SnackBar(
-                                  content: Text('Mohon Tunggu'));
+                                  content: Text('Mohon tunggu'));
                               ScaffoldMessenger.of(context).showSnackBar(snackBarWaiting);
 
                               postImage().then((downloadUrl) {
                                 _urlItemImage = downloadUrl;
                                 SnackBar snackBarSuccess = const SnackBar(
                                     content:
-                                    Text('Uploaded Successfully'));
+                                    Text('Gambar berhasil diunggah!'));
                                 ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
                               });
                               setState(() {});
                             },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            style: GoogleFonts.poppins(),
+                            controller: caloryController,
+                            decoration: InputDecoration(
+                              hintText: "Jumlah kalori (opsional)",
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.deepOrangeAccent,
+                                  width: 1.0,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                ),
+                              ),
+                              contentPadding:
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                            ),
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                         Padding(
@@ -311,6 +352,7 @@ class _AddPageState extends State<AddPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
+                        const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: DropdownButtonFormField<String>(
@@ -408,9 +450,12 @@ class _AddPageState extends State<AddPage> {
                                     fontWeight: FontWeight.w500),
                               ),
                               onPressed: () {
-                                setState(() {
-                                  postItem();
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    postItem();
+                                    Navigator.pop(context);
+                                  });
+                                }
                               }),
                         ),
                       ],
@@ -425,7 +470,7 @@ class _AddPageState extends State<AddPage> {
   Future<String> postImage() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference reference =
-    FirebaseStorage.instance.ref().child('fotoItem/$fileName');
+    FirebaseStorage.instance.ref().child(fileName);
     await reference.putFile(_imageItem!);
     return await reference.getDownloadURL();
   }
@@ -449,6 +494,7 @@ class _AddPageState extends State<AddPage> {
         'nama': nameController.text,
         'namaSearchKey': setRecipeSearchKey(nameController.text),
         'durasi': int.tryParse(durationController.text) ?? 0,
+        'jumlah kalori': int.tryParse(caloryController.text) ?? 0,
         'bahan': materialController.text,
         'instruksi memasak': tutorialController.text,
         'tingkat kesulitan': tingkatKesulitan,
@@ -459,11 +505,8 @@ class _AddPageState extends State<AddPage> {
       durationController.text = '';
       materialController.text = '';
       tutorialController.text = '';
+      caloryController.text='';
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
     }
   }
 }

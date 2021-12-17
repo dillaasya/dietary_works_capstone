@@ -13,7 +13,9 @@ class CardRecipe extends StatefulWidget {
 
 class _CardRecipeState extends State<CardRecipe> {
   String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
+  String? image, name,difficulty, material, tutorial;
+  String duration='';
+  String calory='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -25,6 +27,7 @@ class _CardRecipeState extends State<CardRecipe> {
   final TextEditingController durationController = TextEditingController();
   final TextEditingController materialController = TextEditingController();
   final TextEditingController tutorialController = TextEditingController();
+  final TextEditingController caloryController = TextEditingController();
 
   @override
   void initState() {
@@ -43,13 +46,16 @@ class _CardRecipeState extends State<CardRecipe> {
       image = value.get('gambar');
       material = value.get('bahan');
       tutorial = value.get('instruksi memasak');
-      setState(() {});
+      calory = value.get('jumlah kalori').toString();
+      if (mounted) {
+        setState(() {
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var intDuration = int.parse(duration!);
     return InkWell(
         onTap: () {Navigator.pushNamed(context, DetailPage.routeName, arguments: id);},
         child: Card(
@@ -67,17 +73,17 @@ class _CardRecipeState extends State<CardRecipe> {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(14), bottom: Radius.circular(14)),
-                    child: image == null ? const Placeholder()
+                    child: image == null ? Image.network('https://th.bing.com/th/id/OIP.r4eciF-FM2-3WdhvxTmGEgHaHa?pid=ImgDet&rs=1')
                         : Image.network(
                       image??'',
                       fit: BoxFit.cover,
                     ),
                   ),
                 )),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Expanded(
-                child: Column(
+            SizedBox(
+              width: 10,
+            ),
+            Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -107,8 +113,8 @@ class _CardRecipeState extends State<CardRecipe> {
                           Text(
                               "$duration menit",
                               style:
-                              (intDuration > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
-                              (intDuration >= 15 && intDuration <= 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                              ((int.tryParse(duration) ?? 0) > 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.red) :
+                              ((int.tryParse(duration) ?? 0) >= 15 && (int.tryParse(duration) ?? 0) <= 30)? GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
                               GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w300, color: Colors.green)
                           ),
                         ],
@@ -117,8 +123,7 @@ class _CardRecipeState extends State<CardRecipe> {
                     const SizedBox(height: 7),
                   ],
                 ),
-              ),
-            )
+
           ]),
         )
 

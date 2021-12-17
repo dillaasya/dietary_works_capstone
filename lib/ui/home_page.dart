@@ -1,5 +1,5 @@
 import 'package:dietary_works_capstone/ui/list_page.dart';
-import 'package:dietary_works_capstone/ui/resep_page.dart';
+import 'package:dietary_works_capstone/ui/recipe_page.dart';
 import 'package:dietary_works_capstone/ui/search_page.dart';
 import 'package:flutter/material.dart';
 

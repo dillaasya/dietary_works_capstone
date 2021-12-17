@@ -1,22 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
   static const routeName = '/detail_page';
-  final String id;
 
-  DetailPage({Key? key, required this.id}) : super(key: key);
+  final String id;
+  const DetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+
   String id = '';
-  String? image, name, duration, difficulty, material, tutorial;
+  String? image, name, difficulty, material, tutorial;
+  String duration='';
+  String calory='';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -29,21 +30,8 @@ class _DetailPageState extends State<DetailPage> {
     getData();
   }
 
-  void getData() {
-    resep?.doc(id).get().then((value) {
-      name = value.get('nama');
-      duration = value.get('durasi').toString();
-      difficulty = value.get('tingkat kesulitan');
-      image = value.get('gambar');
-      material = value.get('bahan');
-      tutorial = value.get('instruksi memasak');
-      setState(() {});
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    var intDuration = int.parse(duration!);
     return DefaultTabController(
         length: 2,
         initialIndex: 0,
@@ -61,7 +49,7 @@ class _DetailPageState extends State<DetailPage> {
                               bottomLeft: Radius.circular(25),
                               bottomRight: Radius.circular(25)
                           ),
-                          child: image == null ? Placeholder()
+                          child: image == null ? Image.network('https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg')
                               : Image.network(
                             '$image',
                             fit: BoxFit.cover,
@@ -103,54 +91,65 @@ class _DetailPageState extends State<DetailPage> {
                           margin: const EdgeInsets.only(left: 0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                  '$duration menit',
-                                  style:
-                                  (intDuration > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
-                                  (intDuration >= 15 && intDuration < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
-                                  GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                              Row(
+                                children: [
+                                  const Icon(Icons.access_time),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                      '$duration menit',
+                                      style:
+                                      ((int.tryParse(duration)??0) > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
+                                      ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
+                                      GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                  ),
+                                ],
                               ),
                               Text('$difficulty',
-                                  style:
-                                  (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
-                                  (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
-                                  GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                style:
+                                (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
+                                (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 5,),
+                        Row(
+                          children: [
+                            const Icon(Icons.assignment_turned_in_outlined),
+                            const SizedBox(width: 5),
+                            Text('$calory kkal', style: GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.black),),
+                          ],
+                        )
                       ],
                     ),
                   ),
-                  Container(
-
-                    child: TabBar(
-                        indicatorColor: Colors.deepOrangeAccent,
-                        labelColor: Colors.black,
-                        unselectedLabelColor: Colors.grey,
-                        tabs: [
-                          Tab(
-                            child: Text('Bahan',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                          Tab(
-                            child: Text('Instruksi',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ),
-                        ]
-                    ),
+                  TabBar(
+                      indicatorColor: Colors.deepOrangeAccent,
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      tabs: [
+                        Tab(
+                          child: Text('Bahan',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                        Tab(
+                          child: Text('Instruksi',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                      ]
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                      margin: const EdgeInsets.only(top: 15, left: 20, right: 20),
                       child: TabBarView(
                         children: [
                           Text('$material',
@@ -173,6 +172,18 @@ class _DetailPageState extends State<DetailPage> {
             )
         )
     );
+  }
 
+  void getData() {
+    resep?.doc(id).get().then((value) {
+      name = value.get('nama');
+      duration = value.get('durasi').toString();
+      difficulty = value.get('tingkat kesulitan');
+      image = value.get('gambar');
+      material = value.get('bahan');
+      tutorial = value.get('instruksi memasak');
+      calory = value.get('jumlah kalori').toString();
+      setState(() {});
+    });
   }
 }

@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/widget/card_recipe.dart';
@@ -15,13 +16,9 @@ class SearchPage extends StatefulWidget {
 
 
 class _SearchPageState extends State<SearchPage> {
-  String recipe = "";
 
   @override
   Widget build(BuildContext context) {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference resep = firestore.collection('resep');
-
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(top: 22, left: 25, right: 25),
