@@ -13,12 +13,12 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-
-
 class _SearchPageState extends State<SearchPage> {
-
+  String recipe = "";
   @override
   Widget build(BuildContext context) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference resep = firestore.collection('resep');
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(top: 22, left: 25, right: 25),
@@ -60,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
                 height: 32,
               ),
               StreamBuilder<QuerySnapshot>(
-                  stream: recipe != "" && recipe != null
+                  stream: recipe != ""
                       ? resep.where("namaSearchKey", arrayContains: recipe).snapshots()
                       : resep.snapshots(),
                   builder: (_, snapshot) {

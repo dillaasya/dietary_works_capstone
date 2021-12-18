@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dietary_works_capstone/ui/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
@@ -453,7 +454,7 @@ class _AddPageState extends State<AddPage> {
                                 if (mounted) {
                                   setState(() {
                                     postItem();
-                                    Navigator.pop(context);
+                                    Navigator.pushReplacementNamed(context, HomePage.routeName);
                                   });
                                 }
                               }),

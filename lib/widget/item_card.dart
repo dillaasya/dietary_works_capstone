@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/ui/detail_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -484,6 +485,40 @@ class _ItemCardState extends State<ItemCard> {
         });
   }
 
+  void _showDialogDelete() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              margin: EdgeInsets.all(10),
+              width: 200,
+              height: 150,
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Apakah anda yakin ingin menghapusnya?'),
+                Row(
+                  children: [
+                    ElevatedButton(onPressed:(){
+                      setState(() {
+                        onDelete();
+                        Navigator.pop(context);
+                      });
+                    }, child: Text('ya')),
+                    ElevatedButton(onPressed:(){
+                      Navigator.pop(context);
+                    }, child: Text('tidak'))
+                  ],
+                )
+              ],
+            ),),
+          );
+        });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -492,9 +527,8 @@ class _ItemCardState extends State<ItemCard> {
         },
         child: Column(
           children: [
-            const SizedBox(height: 20),
             Container(
-              padding: const EdgeInsets.only(left:16, right:16),
+              padding: const EdgeInsets.only(left:16, right:16, bottom : 20),
               child: Card(
                 margin: const EdgeInsets.only(left:16,right:16),
                 clipBehavior: Clip.antiAlias,
@@ -570,7 +604,7 @@ class _ItemCardState extends State<ItemCard> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.all(5),
                           child: Row(
                             children: [
                               ElevatedButton(
@@ -606,13 +640,10 @@ class _ItemCardState extends State<ItemCard> {
                                       )),
                                   onPressed: () {
 
-                                    onDelete();
-
-                                    if (mounted) {
-                                      setState(() {
-                                        FirebaseStorage.instance.refFromURL(image??'').delete();
-                                      });
-                                    }
+                                    setState(() {
+                                      FirebaseStorage.instance.refFromURL(image??'').delete();
+                                      _showDialogDelete();
+                                    });
                                   }),
                             ],
                           ),
@@ -648,11 +679,6 @@ class _ItemCardState extends State<ItemCard> {
 
   void onDelete() async {
     await resep?.doc(id).delete();
-    if (mounted) {
-      setState(() {
-      });
-    }
-
   }
 
   void updateItem(String id) {

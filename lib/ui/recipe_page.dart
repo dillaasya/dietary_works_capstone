@@ -22,32 +22,25 @@ class _RecipePageState extends State<RecipePage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          StreamBuilder<QuerySnapshot>(
-              stream: resep.snapshots(),
-              builder: (_, snapshot) {
-
-                if (snapshot.connectionState == ConnectionState.active) {
-                  return ListView.builder(
-                      itemCount: snapshot.data?.docs.length,
-                      itemBuilder: (context, index) {
-                        log('Index : $index');
-                        QueryDocumentSnapshot<Object?>? ds =
-                        snapshot.data?.docs[index];
-                        log('Index : $ds');
-                        return ItemCard(ds?.id);
-                      }
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-              }),
-          const SizedBox(
-            height: 150,
-          ),
-        ],
+      body: Container(
+        margin: const EdgeInsets.only(top: 32),
+        child: StreamBuilder<QuerySnapshot>(
+            stream: resep.snapshots(),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                return ListView.builder(
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index) {
+                      log('Index : $index');
+                      QueryDocumentSnapshot<Object?>? ds =
+                          snapshot.data?.docs[index];
+                      log('Index : $ds');
+                      return ItemCard(ds?.id);
+                    });
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         // isExtended: true,

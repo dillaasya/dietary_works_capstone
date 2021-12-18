@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _listWidget = [
     const ListPage(),
     const SearchPage(),
-    const ProfilePage(),
+    const RecipePage(),
   ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [
