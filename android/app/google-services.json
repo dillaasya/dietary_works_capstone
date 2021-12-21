@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "809705869994",
-    "project_id": "dietary-works-capstone-d742e",
-    "storage_bucket": "dietary-works-capstone-d742e.appspot.com"
+    "project_number": "579020612947",
+    "project_id": "dietaryworks-e3834",
+    "storage_bucket": "dietaryworks-e3834.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:809705869994:android:3a497741862a7b422336d3",
+        "mobilesdk_app_id": "1:579020612947:android:b8ce13b3a4bf78f6262da6",
         "android_client_info": {
-          "package_name": "com.example.dietary_works_capstone"
+          "package_name": "com.capstone.dietaryworks"
         }
       },
       "oauth_client": [
         {
-          "client_id": "809705869994-tqjljpff88lv4fbmm49rmb1hlhft24qt.apps.googleusercontent.com",
+          "client_id": "579020612947-ofi6n2utdqiq0098oememku0us0r5rnl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBOhNvQe9mc1rgSaXn6nUDWBCbOqwHrBHo"
+          "current_key": "AIzaSyDNqA8NUWyyqxwE0-yzLX5xXFU6V31aoAs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "809705869994-tqjljpff88lv4fbmm49rmb1hlhft24qt.apps.googleusercontent.com",
+              "client_id": "579020612947-ofi6n2utdqiq0098oememku0us0r5rnl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

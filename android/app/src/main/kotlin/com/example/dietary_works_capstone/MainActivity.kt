@@ -1,4 +1,4 @@
-package com.example.dietary_works_capstone
+package com.capstone.dietaryworks
 
 import io.flutter.embedding.android.FlutterActivity
 
