@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ItemCard extends StatefulWidget {
   final String? id;
@@ -475,36 +476,71 @@ class _ItemCardState extends State<ItemCard> {
   }
 
   void _showDialogDelete() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              width: 200,
-              height: 150,
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text('Apakah anda yakin ingin menghapusnya?'),
-                Row(
-                  children: [
-                    ElevatedButton(onPressed:(){
-                      setState(() {
-                        onDelete();
-                        Navigator.pop(context);
-                      });
-                    }, child: const Text('ya')),
-                    ElevatedButton(onPressed:(){
-                      Navigator.pop(context);
-                    }, child: const Text('tidak'))
-                  ],
-                )
-              ],
-            ),),
-          );
-        });
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "PERINGATAN!",
+      desc: "Apakah anda yakin ingin menghapus resep $name ?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Tidak",
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.deepOrangeAccent),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.white,
+          border: Border.all(color: Colors.deepOrangeAccent),
+        ),
+        DialogButton(
+            child: Text(
+              "Ya",
+              style: GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.white),
+            ),
+            onPressed: (){
+              setState(() {
+                onDelete();
+                FirebaseStorage.instance.refFromURL(image??'').delete();
+                Navigator.pop(context);
+              });
+              SnackBar snackBarSuccess = SnackBar(
+                  content:
+                  Text('Resep $name berhasil dihapus'));
+              ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
+            },
+            color: Colors.deepOrangeAccent
+        ),
+      ],
+    ).show();
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return Dialog(
+    //         child: Container(
+    //           margin: const EdgeInsets.all(10),
+    //           width: 200,
+    //           height: 150,
+    //           child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           crossAxisAlignment: CrossAxisAlignment.center,
+    //           children: [
+    //             const Text('Apakah anda yakin ingin menghapusnya?'),
+    //             Row(
+    //               children: [
+    //                 ElevatedButton(onPressed:(){
+    //                   setState(() {
+    //                     onDelete();
+    //                     Navigator.pop(context);
+    //                   });
+    //                 }, child: const Text('ya')),
+    //                 ElevatedButton(onPressed:(){
+    //                   Navigator.pop(context);
+    //                 }, child: const Text('tidak'))
+    //               ],
+    //             )
+    //           ],
+    //         ),),
+    //       );
+    //     });
 
   }
 
@@ -626,14 +662,14 @@ class _ItemCardState extends State<ItemCard> {
                                       child: Icon(
                                         Icons.delete,
                                         color: Colors.white,
-                                      )),
-                                  onPressed: () {
-
-                                    setState(() {
-                                      FirebaseStorage.instance.refFromURL(image??'').delete();
-                                      _showDialogDelete();
-                                    });
-                                  }),
+                                      )
+                                  ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _showDialogDelete();
+                                      });
+                                    }
+                                  ),
                             ],
                           ),
                         )
