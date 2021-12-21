@@ -37,6 +37,7 @@ class _DetailPageState extends State<DetailPage> {
         initialIndex: 0,
         child: Scaffold(
             body: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Stack(
                     clipBehavior: Clip.none,
@@ -87,33 +88,30 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        Container(
-                          margin: const EdgeInsets.only(left: 0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.access_time),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                      '$duration menit',
-                                      style:
-                                      ((int.tryParse(duration)??0) > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
-                                      ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
-                                      GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
-                                  ),
-                                ],
-                              ),
-                              Text('$difficulty',
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.access_time),
+                                const SizedBox(width: 5),
+                                Text(
+                                    '$duration menit',
+                                    style:
+                                    ((int.tryParse(duration)??0) > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
+                                    ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
+                                    GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                ),
+                              ],
+                            ),
+                            Text('$difficulty',
                                 style:
                                 (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
                                 (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
                                 GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 5,),
                         Row(
@@ -147,10 +145,11 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                       ]
                   ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 15, left: 20, right: 20),
-                      child: TabBarView(
+                  Flexible(
+                    child: TabBarView(
+                    children: [
+                      ListView(
+                        padding: const EdgeInsets.only(left: 25, right: 25, top: 30, bottom: 30),
                         children: [
                           Text('$material',
                               style: GoogleFonts.roboto(
@@ -158,6 +157,11 @@ class _DetailPageState extends State<DetailPage> {
                                 fontWeight: FontWeight.w400,
                               )
                           ),
+                        ],
+                      ),
+                      ListView(
+                        padding: const EdgeInsets.only(left: 25, right: 25, top: 30, bottom: 30),
+                        children: [
                           Text('$tutorial',
                               style: GoogleFonts.roboto(
                                 fontSize: 15,
@@ -166,10 +170,12 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ],
                       ),
-                    ),
+                    ],
+                  ),
+                    fit: FlexFit.loose,
                   )
                 ]
-            )
+            ),
         )
     );
   }
