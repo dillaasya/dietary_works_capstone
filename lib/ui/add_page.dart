@@ -120,7 +120,7 @@ class _AddPageState extends State<AddPage> {
                                 ),
                               ),
                               contentPadding:
-                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                              const EdgeInsets.only(left: 24, top: 18, bottom: 18, right: 24),
                             ),
                           ),
                         ),
@@ -202,8 +202,9 @@ class _AddPageState extends State<AddPage> {
                                 ),
                               ),
                               contentPadding:
-                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                              const EdgeInsets.only(left: 24, top: 18, bottom: 18, right: 24),
                             ),
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                         Padding(
@@ -250,7 +251,7 @@ class _AddPageState extends State<AddPage> {
                                 ),
                               ),
                               contentPadding:
-                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18, right: 24),
                             ),
                             keyboardType: TextInputType.multiline,
                           ),
@@ -299,7 +300,7 @@ class _AddPageState extends State<AddPage> {
                                 ),
                               ),
                               contentPadding:
-                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18, right: 24),
                             ),
                             keyboardType: TextInputType.multiline,
                           ),
@@ -347,7 +348,7 @@ class _AddPageState extends State<AddPage> {
                                 ),
                               ),
                               contentPadding:
-                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
+                              const EdgeInsets.only(left: 24.0, top: 18, bottom: 18, right: 24),
                             ),
                             keyboardType: TextInputType.number,
                           ),
@@ -397,7 +398,7 @@ class _AddPageState extends State<AddPage> {
                               ),
                               filled: false,
                               contentPadding:
-                              const EdgeInsets.only(left: 24.0, right: 0),
+                              const EdgeInsets.only(left: 24.0, right: 24),
                               hintStyle: GoogleFonts.roboto(
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.25)

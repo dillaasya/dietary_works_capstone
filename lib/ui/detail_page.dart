@@ -112,7 +112,10 @@ class _DetailPageState extends State<DetailPage> {
                                       children: [
                                         const Icon(Icons.assignment_turned_in_outlined, color: Colors.white,),
                                         const SizedBox(width: 5),
-                                        Text('$calory kkal', style: GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.white),),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 1),
+                                          child: Text('$calory kkal', style: GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.white),),
+                                        )
                                       ],
                                     ),
                                   )

@@ -104,7 +104,6 @@ class _ItemCardState extends State<ItemCard> {
                               style: GoogleFonts.poppins(),
                               controller: nameController,
                               decoration: InputDecoration(
-                                hintText: "Nama resep",
                                 labelText: "Nama resep",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -136,7 +135,7 @@ class _ItemCardState extends State<ItemCard> {
                                 ),
                                 contentPadding:
                                 const EdgeInsets.only(
-                                    left: 24.0, top: 18, bottom: 18),
+                                    left: 24, top: 18, bottom: 18, right: 24),
                               ),
                             ),
                           ),
@@ -146,7 +145,7 @@ class _ItemCardState extends State<ItemCard> {
                               style: GoogleFonts.poppins(),
                               controller: calorieController,
                               decoration: InputDecoration(
-                                hintText: "Jumlah kalori (opsional)",
+                                labelText: "Jumlah kalori (opsional)",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -177,8 +176,9 @@ class _ItemCardState extends State<ItemCard> {
                                 ),
                                 contentPadding:
                                 const EdgeInsets.only(
-                                    left: 24.0, top: 18, bottom: 18),
+                                    left: 24, top: 18, bottom: 18, right: 24),
                               ),
+                              keyboardType: TextInputType.number,
                             ),
                           ),
                           Padding(
@@ -195,7 +195,6 @@ class _ItemCardState extends State<ItemCard> {
                               maxLines: 3,
                               controller: materialController,
                               decoration: InputDecoration(
-                                hintText: "Bahan-bahan",
                                 labelText: "Bahan-bahan",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -227,7 +226,7 @@ class _ItemCardState extends State<ItemCard> {
                                 ),
                                 contentPadding:
                                 const EdgeInsets.only(
-                                    left: 24.0, top: 18, bottom: 18),
+                                    left: 24, top: 18, bottom: 18, right: 24),
                               ),
                               keyboardType: TextInputType.multiline,
                             ),
@@ -246,7 +245,6 @@ class _ItemCardState extends State<ItemCard> {
                               maxLines: 7,
                               controller: tutorialController,
                               decoration: InputDecoration(
-                                hintText: "Instruksi memasak",
                                 labelText: "Instruksi memasak",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -278,7 +276,7 @@ class _ItemCardState extends State<ItemCard> {
                                 ),
                                 contentPadding:
                                 const EdgeInsets.only(
-                                    left: 24.0, top: 18, bottom: 18),
+                                    left: 24.0, top: 18, bottom: 18, right: 24),
                               ),
                               keyboardType: TextInputType.multiline,
                             ),
@@ -296,8 +294,8 @@ class _ItemCardState extends State<ItemCard> {
                               style: GoogleFonts.poppins(),
                               controller: durationController,
                               decoration: InputDecoration(
-                                hintText: "Durasi memasak (menit)",
                                 labelText: "Durasi memasak (menit)",
+                                focusColor: Colors.deepOrangeAccent,
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -328,7 +326,7 @@ class _ItemCardState extends State<ItemCard> {
                                 ),
                                 contentPadding:
                                 const EdgeInsets.only(
-                                    left: 24.0, top: 18, bottom: 18),
+                                    left: 24.0, top: 18, bottom: 18, right: 24),
                               ),
                               keyboardType: TextInputType.number,
                             ),
@@ -377,7 +375,7 @@ class _ItemCardState extends State<ItemCard> {
                                 ),
                                 filled: false,
                                 contentPadding:
-                                const EdgeInsets.only(left: 24.0, right: 0),
+                                const EdgeInsets.only(left: 24.0, right: 24),
                                 hintStyle: GoogleFonts.roboto(
                                     fontSize: 20,
                                     color: Colors.black.withOpacity(0.25)
@@ -675,13 +673,12 @@ class _ItemCardState extends State<ItemCard> {
   void updateItem(String id) {
     ///Progress Loading TRUE/1/ON/HIGH
     int duration;
-    int calory;
 
     name = nameController.text;
     material = materialController.text;
     tutorial = tutorialController.text;
+    calorie = calorieController.text;
     duration = int.tryParse(durationController.text) ?? 0;
-    calory = int.tryParse(calorieController.text) ?? 0;
     difficulty = tingkatKesulitan;
 
     setRecipeSearchKey(String caseNumber) {
@@ -699,7 +696,7 @@ class _ItemCardState extends State<ItemCard> {
         "nama": name,
         'namaSearchKey': setRecipeSearchKey(nameController.text),
         "durasi": duration,
-        "jumlah kalori": calory,
+        "jumlah kalori": calorie,
         "tingkat kesulitan": difficulty,
         "instruksi memasak": tutorial,
         "bahan": material,
