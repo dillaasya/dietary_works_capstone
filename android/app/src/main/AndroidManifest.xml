@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.capstone.dietaryworks">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="dietary_works_capstone"
         android:icon="@mipmap/ic_launcher">
