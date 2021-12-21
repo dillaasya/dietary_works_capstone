@@ -23,7 +23,7 @@ class _ItemCardState extends State<ItemCard> {
   String id = '';
   String? image, name, difficulty, material, tutorial;
   String duration = '';
-  String calory = '';
+  String calorie = '';
   FirebaseFirestore? firestore;
   CollectionReference? resep;
 
@@ -35,7 +35,7 @@ class _ItemCardState extends State<ItemCard> {
   final TextEditingController durationController = TextEditingController();
   final TextEditingController materialController = TextEditingController();
   final TextEditingController tutorialController = TextEditingController();
-  final TextEditingController caloryController = TextEditingController();
+  final TextEditingController calorieController = TextEditingController();
 
   @override
   void initState() {
@@ -53,21 +53,21 @@ class _ItemCardState extends State<ItemCard> {
     durationController.clear();
     materialController.clear();
     tutorialController.clear();
-    caloryController.clear();
+    calorieController.clear();
     name = '';
     duration = '';
     difficulty = '';
     image = '';
     material = '';
     tutorial = '';
-    calory = '';
+    calorie = '';
   }
 
   void _showDialogEdit() {
     nameController.text = name!;
     levelController.text = difficulty!;
     durationController.text = duration;
-    caloryController.text = calory;
+    calorieController.text = calorie;
     materialController.text = material!;
     tutorialController.text = tutorial!;
 
@@ -143,18 +143,10 @@ class _ItemCardState extends State<ItemCard> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFormField(
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Tidak boleh kosong!';
-                                } else {
-                                  return null;
-                                }
-                              },
                               style: GoogleFonts.poppins(),
-                              controller: caloryController,
+                              controller: calorieController,
                               decoration: InputDecoration(
                                 hintText: "Jumlah kalori (opsional)",
-                                labelText: "Jumlah kalori (opsional)",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -187,7 +179,6 @@ class _ItemCardState extends State<ItemCard> {
                                 const EdgeInsets.only(
                                     left: 24.0, top: 18, bottom: 18),
                               ),
-                              keyboardType: TextInputType.number,
                             ),
                           ),
                           Padding(
@@ -491,14 +482,14 @@ class _ItemCardState extends State<ItemCard> {
         builder: (context) {
           return Dialog(
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               width: 200,
               height: 150,
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Apakah anda yakin ingin menghapusnya?'),
+                const Text('Apakah anda yakin ingin menghapusnya?'),
                 Row(
                   children: [
                     ElevatedButton(onPressed:(){
@@ -506,10 +497,10 @@ class _ItemCardState extends State<ItemCard> {
                         onDelete();
                         Navigator.pop(context);
                       });
-                    }, child: Text('ya')),
+                    }, child: const Text('ya')),
                     ElevatedButton(onPressed:(){
                       Navigator.pop(context);
-                    }, child: Text('tidak'))
+                    }, child: const Text('tidak'))
                   ],
                 )
               ],
@@ -624,7 +615,7 @@ class _ItemCardState extends State<ItemCard> {
                                     _showDialogEdit();
                                   }
                               ),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     onPrimary: Colors.white,
@@ -668,7 +659,7 @@ class _ItemCardState extends State<ItemCard> {
       log('Url : $image' );
       material = value.get('bahan');
       tutorial = value.get('instruksi memasak');
-      calory = value.get('jumlah kalori').toString();
+      calorie = value.get('jumlah kalori');
       if (mounted) {
         setState(() {
         });
@@ -690,7 +681,7 @@ class _ItemCardState extends State<ItemCard> {
     material = materialController.text;
     tutorial = tutorialController.text;
     duration = int.tryParse(durationController.text) ?? 0;
-    calory = int.tryParse(caloryController.text) ?? 0;
+    calory = int.tryParse(calorieController.text) ?? 0;
     difficulty = tingkatKesulitan;
 
     setRecipeSearchKey(String caseNumber) {

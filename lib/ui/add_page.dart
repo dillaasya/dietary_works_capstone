@@ -28,7 +28,7 @@ class _AddPageState extends State<AddPage> {
   final TextEditingController durationController = TextEditingController();
   final TextEditingController materialController = TextEditingController();
   final TextEditingController tutorialController = TextEditingController();
-  final TextEditingController caloryController = TextEditingController();
+  final TextEditingController calorieController = TextEditingController();
 
   File? image, _imageItem;
   String? _urlItemImage;
@@ -170,7 +170,7 @@ class _AddPageState extends State<AddPage> {
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: TextFormField(
                             style: GoogleFonts.poppins(),
-                            controller: caloryController,
+                            controller: calorieController,
                             decoration: InputDecoration(
                               hintText: "Jumlah kalori (opsional)",
                               focusedBorder: OutlineInputBorder(
@@ -204,7 +204,6 @@ class _AddPageState extends State<AddPage> {
                               contentPadding:
                               const EdgeInsets.only(left: 24.0, top: 18, bottom: 18),
                             ),
-                            keyboardType: TextInputType.number,
                           ),
                         ),
                         Padding(
@@ -495,7 +494,7 @@ class _AddPageState extends State<AddPage> {
         'nama': nameController.text,
         'namaSearchKey': setRecipeSearchKey(nameController.text),
         'durasi': int.tryParse(durationController.text) ?? 0,
-        'jumlah kalori': int.tryParse(caloryController.text) ?? 0,
+        'jumlah kalori': calorieController.text,
         'bahan': materialController.text,
         'instruksi memasak': tutorialController.text,
         'tingkat kesulitan': tingkatKesulitan,
@@ -506,7 +505,7 @@ class _AddPageState extends State<AddPage> {
       durationController.text = '';
       materialController.text = '';
       tutorialController.text = '';
-      caloryController.text='';
+      calorieController.text='';
 
     }
   }
