@@ -82,7 +82,7 @@ class _DetailPageState extends State<DetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text('$name',
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w700,
                           ),
@@ -94,33 +94,64 @@ class _DetailPageState extends State<DetailPage> {
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.access_time),
-                                const SizedBox(width: 5),
-                                Text(
-                                    '$duration menit',
-                                    style:
-                                    ((int.tryParse(duration)??0) > 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.red) :
-                                    ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
-                                    GoogleFonts.roboto(fontWeight: FontWeight.w400, color: Colors.green)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomLeft,
+                                        end: Alignment.topRight,
+                                        colors: [
+                                          Colors.deepOrange,
+                                          Colors.deepOrange.shade300,
+                                        ],
+                                      ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.assignment_turned_in_outlined, color: Colors.white,),
+                                        const SizedBox(width: 5),
+                                        Text('$calory kkal', style: GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.white),),
+                                      ],
+                                    ),
+                                  )
                                 ),
                               ],
                             ),
-                            Text('$difficulty',
-                                style:
-                                (difficulty == 'Sulit')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.red) :
-                                (difficulty == 'Sedang')? GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
-                                GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.green)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 5),
+                                  Text(
+                                      '$duration menit',
+                                      style:
+                                      ((int.tryParse(duration)??0) > 30)? GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.red) :
+                                      ((int.tryParse(duration)??0) >= 15 && (int.tryParse(duration)??0) < 30)? GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.yellow.shade700) :
+                                      GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.green)
+                                  ),
+                                ],
+                              ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 5),
+                                  Text('$difficulty',
+                                      style:
+                                      (difficulty == 'Sulit')? GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.red) :
+                                      (difficulty == 'Sedang')? GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.yellow.shade700) :
+                                      GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.green)
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer()
                           ],
                         ),
-                        SizedBox(height: 5,),
-                        Row(
-                          children: [
-                            const Icon(Icons.assignment_turned_in_outlined),
-                            const SizedBox(width: 5),
-                            Text('$calory kkal', style: GoogleFonts.roboto(fontWeight: FontWeight.w300, color: Colors.black),),
-                          ],
-                        )
+                        const SizedBox(height: 5,),
                       ],
                     ),
                   ),
@@ -131,14 +162,14 @@ class _DetailPageState extends State<DetailPage> {
                       tabs: [
                         Tab(
                           child: Text('Bahan',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                               )),
                         ),
                         Tab(
                           child: Text('Instruksi',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                               )),
@@ -152,7 +183,7 @@ class _DetailPageState extends State<DetailPage> {
                         padding: const EdgeInsets.only(left: 25, right: 25, top: 30, bottom: 30),
                         children: [
                           Text('$material',
-                              style: GoogleFonts.roboto(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                               )
@@ -163,7 +194,7 @@ class _DetailPageState extends State<DetailPage> {
                         padding: const EdgeInsets.only(left: 25, right: 25, top: 30, bottom: 30),
                         children: [
                           Text('$tutorial',
-                              style: GoogleFonts.roboto(
+                              style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                               )
