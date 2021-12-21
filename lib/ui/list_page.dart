@@ -36,7 +36,7 @@ class _ListPageState extends State<ListPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Halo!',
+                      Text('Selamat datang di',
                           style: GoogleFonts.roboto(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
