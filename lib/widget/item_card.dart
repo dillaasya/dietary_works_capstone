@@ -143,10 +143,17 @@ class _ItemCardState extends State<ItemCard> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFormField(
+                              validator: (value) {
+                                if (value!.isNotEmpty) {
+                                  return null;
+                                } else {
+                                  return 'Tidak boleh kosong!';
+                                }
+                              },
                               style: GoogleFonts.poppins(),
                               controller: calorieController,
                               decoration: InputDecoration(
-                                labelText: "Jumlah kalori (opsional)",
+                                labelText: "Jumlah kalori",
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                   borderSide: const BorderSide(
@@ -511,37 +518,6 @@ class _ItemCardState extends State<ItemCard> {
         ),
       ],
     ).show();
-    // showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return Dialog(
-    //         child: Container(
-    //           margin: const EdgeInsets.all(10),
-    //           width: 200,
-    //           height: 150,
-    //           child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             const Text('Apakah anda yakin ingin menghapusnya?'),
-    //             Row(
-    //               children: [
-    //                 ElevatedButton(onPressed:(){
-    //                   setState(() {
-    //                     onDelete();
-    //                     Navigator.pop(context);
-    //                   });
-    //                 }, child: const Text('ya')),
-    //                 ElevatedButton(onPressed:(){
-    //                   Navigator.pop(context);
-    //                 }, child: const Text('tidak'))
-    //               ],
-    //             )
-    //           ],
-    //         ),),
-    //       );
-    //     });
-
   }
 
   @override

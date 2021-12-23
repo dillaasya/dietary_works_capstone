@@ -97,7 +97,7 @@ class _ListPageState extends State<ListPage> {
                     child: TabBarView(
                       children: [
                             StreamBuilder<QuerySnapshot>(
-                                stream: resep.snapshots(),
+                                stream: resep.orderBy("ditambahkanPada", descending: true).limit(10).snapshots(),
                                 builder: (_, snapshot) {
                                   if (snapshot.hasError) {
                                     return Text('Error : ${snapshot.error}');

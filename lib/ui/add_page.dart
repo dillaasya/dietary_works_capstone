@@ -169,10 +169,17 @@ class _AddPageState extends State<AddPage> {
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: TextFormField(
+                            validator: (value) {
+                              if (value!.isNotEmpty) {
+                                return null;
+                              } else {
+                                return 'Tidak boleh kosong!';
+                              }
+                            },
                             style: GoogleFonts.poppins(),
                             controller: calorieController,
                             decoration: InputDecoration(
-                              hintText: "Jumlah kalori (opsional)",
+                              hintText: "Jumlah kalori",
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                                 borderSide: const BorderSide(
@@ -499,6 +506,7 @@ class _AddPageState extends State<AddPage> {
         'bahan': materialController.text,
         'instruksi memasak': tutorialController.text,
         'tingkat kesulitan': tingkatKesulitan,
+        'ditambahkanPada' : FieldValue.serverTimestamp(),
         'gambar': _urlItemImage
       });
 
