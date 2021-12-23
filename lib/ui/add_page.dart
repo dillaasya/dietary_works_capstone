@@ -453,7 +453,7 @@ class _AddPageState extends State<AddPage> {
                                 if (mounted) {
                                   setState(() {
                                     postItem();
-                                    Navigator.pushReplacementNamed(context, HomePage.routeName);
+
                                   });
                                 }
                               }),
@@ -507,6 +507,7 @@ class _AddPageState extends State<AddPage> {
       tutorialController.text = '';
       calorieController.text='';
 
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
     }
   }
 }

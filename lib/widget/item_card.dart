@@ -493,6 +493,7 @@ class _ItemCardState extends State<ItemCard> {
                 Row(
                   children: [
                     ElevatedButton(onPressed:(){
+                      FirebaseStorage.instance.refFromURL(image??'').delete();
                       setState(() {
                         onDelete();
                         Navigator.pop(context);
@@ -632,7 +633,7 @@ class _ItemCardState extends State<ItemCard> {
                                   onPressed: () {
 
                                     setState(() {
-                                      FirebaseStorage.instance.refFromURL(image??'').delete();
+
                                       _showDialogDelete();
                                     });
                                   }),
