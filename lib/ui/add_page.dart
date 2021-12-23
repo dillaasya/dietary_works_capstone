@@ -461,7 +461,6 @@ class _AddPageState extends State<AddPage> {
                                 if (mounted) {
                                   setState(() {
                                     postItem();
-
                                   });
                                 }
                               }),
@@ -515,6 +514,11 @@ class _AddPageState extends State<AddPage> {
       materialController.text = '';
       tutorialController.text = '';
       calorieController.text='';
+
+      SnackBar snackBarSuccess = SnackBar(
+          content:
+          Text('Resep $nameController berhasil ditambahkan'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
 
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     }

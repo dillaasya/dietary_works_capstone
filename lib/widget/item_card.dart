@@ -446,6 +446,10 @@ class _ItemCardState extends State<ItemCard> {
                                   setState(() {
                                     updateItem(id);
                                   });
+                                  SnackBar snackBarSuccess = SnackBar(
+                                      content:
+                                      Text('Resep $name berhasil diperbarui'));
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
                                 }),
                           ),
 
@@ -485,14 +489,19 @@ class _ItemCardState extends State<ItemCard> {
   void _showDialogDelete() {
     Alert(
       context: context,
+      closeIcon: Container(),
       type: AlertType.warning,
-      title: "PERINGATAN!",
+      title: "PERINGATAN !",
       desc: "Apakah anda yakin ingin menghapus resep $name ?",
       buttons: [
         DialogButton(
           child: Text(
             "Tidak",
-            style: GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.deepOrangeAccent),
+            style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+                color: Colors.deepOrangeAccent
+            ),
           ),
           onPressed: () => Navigator.pop(context),
           color: Colors.white,
@@ -501,7 +510,11 @@ class _ItemCardState extends State<ItemCard> {
         DialogButton(
             child: Text(
               "Ya",
-              style: GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.white),
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                  color: Colors.white
+              ),
             ),
             onPressed: (){
               setState(() {
@@ -532,6 +545,7 @@ class _ItemCardState extends State<ItemCard> {
               padding: const EdgeInsets.only(left:16, right:16, bottom : 20),
               child: Card(
                 margin: const EdgeInsets.only(left:16,right:16),
+                elevation: 0,
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -562,7 +576,7 @@ class _ItemCardState extends State<ItemCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: 150,
+                            width: 176,
                             child: Text(
                               name??'',
                               maxLines: 1,
@@ -573,7 +587,7 @@ class _ItemCardState extends State<ItemCard> {
                           ),
                           const SizedBox(height: 7),
                           SizedBox(
-                            width: 150,
+                            width: 176,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -594,63 +608,100 @@ class _ItemCardState extends State<ItemCard> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 7),
                         ],
                       ),
-
-
-                    ]),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Row(
+                    ]
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    onPrimary: Colors.white,
-                                    primary: Colors.green,
-                                    shadowColor: Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
-                                  ),
-                                  child: const Center(
-                                      child: Icon(
-                                        Icons.arrow_upward,
-                                        color: Colors.white,
-                                      )),
-                                  onPressed: () {
-                                    _showDialogEdit();
-                                  }
+                              Padding(
+                                padding : const EdgeInsets.only(bottom: 1),
+                                child: Text(
+                                    "Opsi",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey
+                                    )
+                                ),
                               ),
-                              const SizedBox(width: 5,),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    onPrimary: Colors.white,
-                                    primary: Colors.red,
-                                    shadowColor: Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
-                                  ),
-                                  child: const Center(
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: Colors.white,
-                                      )
-                                  ),
+                              const SizedBox(width: 3,),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.grey,
+                                size: 12,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 2),
+                            child: Row(
+                              children: [
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      onPrimary: Colors.white,
+                                      primary: Colors.green,
+                                      shadowColor: Colors.grey,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30)
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                          "Edit",
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.white
+                                          )
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      _showDialogEdit();
+                                    }
+                                ),
+                                const SizedBox(width: 5,),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      onPrimary: Colors.white,
+                                      primary: Colors.red,
+                                      shadowColor: Colors.grey,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30)),
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                            "Hapus",
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white
+                                            )
+                                        )
+                                    ),
                                     onPressed: () {
                                       setState(() {
                                         _showDialogDelete();
                                       });
                                     }
-                                  ),
-                            ],
-                          ),
-                        )
-                      ],
-                    )
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height:15),
+                    const Divider(
+                      height: 20,
+                      thickness: 1,
+                    ),
+                    const SizedBox(height:10)
                   ],
                 ),
               ),

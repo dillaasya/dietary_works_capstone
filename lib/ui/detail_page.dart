@@ -114,7 +114,7 @@ class _DetailPageState extends State<DetailPage> {
                                         const SizedBox(width: 5),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 1),
-                                          child: Text('$calory kkal', style: GoogleFonts.montserrat(fontWeight: FontWeight.w300, color: Colors.white),),
+                                          child: Text('$calory kkal', style: GoogleFonts.montserrat(fontWeight: FontWeight.w400, color: Colors.white),),
                                         )
                                       ],
                                     ),
