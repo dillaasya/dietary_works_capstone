@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dietary_works_capstone/ui/detail_page.dart';
+import 'package:dietary_works_capstone/ui/home_page.dart';
+import 'package:dietary_works_capstone/ui/recipe_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -520,7 +522,7 @@ class _ItemCardState extends State<ItemCard> {
               setState(() {
                 onDelete();
                 FirebaseStorage.instance.refFromURL(image??'').delete();
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, HomePage.routeName);
               });
               SnackBar snackBarSuccess = SnackBar(
                   content:

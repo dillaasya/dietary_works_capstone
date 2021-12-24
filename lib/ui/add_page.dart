@@ -485,7 +485,7 @@ class _AddPageState extends State<AddPage> {
   void postItem() {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference recipe = firestore.collection('resep');
-
+    String setName = nameController.text;
     setRecipeSearchKey(String caseNumber) {
       List<String> caseSearchList = [];
       String temp = "";
@@ -517,7 +517,7 @@ class _AddPageState extends State<AddPage> {
 
       SnackBar snackBarSuccess = SnackBar(
           content:
-          Text('Resep $nameController berhasil ditambahkan'));
+          Text('Resep $setName berhasil ditambahkan'));
       ScaffoldMessenger.of(context).showSnackBar(snackBarSuccess);
 
       Navigator.pushReplacementNamed(context, HomePage.routeName);
